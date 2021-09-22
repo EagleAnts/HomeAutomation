@@ -1,14 +1,17 @@
+/* Wrapper Class */
+
+
 /* Menu Items */
 
 .menu {
     display: block;
-    height: 90vh;
+    height: 80vh;
     width: 7%;
-    margin-left: 2%;
+    margin: 2%;
     border-radius: 0.5rem;
     z-index: 1;
     position: fixed;
-    top: 5%;
+    top: 8%;
     left: 0;
     bottom: 5%;
     background-color: #7B40F2;
@@ -29,7 +32,7 @@
     color: rgb(75, 63, 155);
 }
 
-.menu_items-active {
+.active {
     color: white;
 }
 
@@ -37,11 +40,14 @@
     color: white;
 }
 
+
+/* Navbar header */
+
 .Navbar {
     margin: 2%;
     position: fixed;
     left: 10%;
-    width: 90%;
+    width: 100%;
 }
 
 .searchWrapper {
@@ -79,3 +85,8 @@
 #searchQuerySubmit:hover {
     cursor: pointer;
 }
+
+
+/* Container */
+
+.container {}
