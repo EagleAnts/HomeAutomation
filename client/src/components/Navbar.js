@@ -15,8 +15,8 @@ export const Navbar = () => {
 
   return (
     <div className="Navbar">
-      <Grid container direction="row" alignItems="center" spacing={2}>
-        <Grid item xs={6}>
+      <Grid container direction="row" alignItems="center" sx={{ pl: "10%" }}>
+        <Grid item xs={12} sm={5} md={6}>
           <div className="searchWrapper">
             <div className="searchBar">
               <input id="searchQueryInput" type="text" placeholder="Search" />
@@ -33,10 +33,11 @@ export const Navbar = () => {
         <Grid
           container
           item
-          xs={5}
-          direction="row"
-          alignItems="center"
+          xs={4}
+          sm={7}
+          md={6}
           justifyContent="flex-end"
+          alignContent="center"
         >
           <BsGearFill style={iconsStyle} />
           <IoNotificationsOutline style={iconsStyle} />

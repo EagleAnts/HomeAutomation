@@ -10,25 +10,26 @@ import { Home } from "./components/Home";
 import { Dashboard } from "./components/Dashboard";
 import { Logout } from "./components/Logout";
 import { Grid } from "@mui/material";
+import { Paper } from "@mui/material";
 
 export default function App() {
   return (
     <Grid
       container
+      md={12}
       sx={{ height: "100vh", width: "100vw" }}
-      direction="column"
       justifyContent="center"
-      alignItems="flex-start"
+      spacing="2"
     >
       <Router>
         <Fragment>
-          <Grid item xs={12}>
+          <Grid item xs={12} sm={12} md={12}>
             <Navbar />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item md={2}>
             <Menu />
           </Grid>
-          <Grid item xs={10}>
+          <Grid item md={10}>
             <div className="container">
               <Route exact path="/" component={Home} />
               <Switch>
@@ -37,6 +38,7 @@ export default function App() {
               </Switch>
             </div>
           </Grid>
+
         </Fragment>
       </Router>
     </Grid>
