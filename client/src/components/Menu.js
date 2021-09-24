@@ -6,14 +6,14 @@ import { HiHome } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { IoExitOutline } from "react-icons/io5";
 
-export const Menu = () => {
+export const Menu = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleOnClick = (index) => {
     setActiveIndex(index);
   };
   return (
-    <nav className="menu">
+    <nav className={props.title}>
       <NavLink to="/" onClick={() => handleOnClick(0)}>
         <HiHome className={`menu_items ${activeIndex === 0 ? "active" : ""}`} />
       </NavLink>
