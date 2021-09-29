@@ -1,7 +1,15 @@
 import React from "react";
+
+// Icons
+
+// import { CgBolt } from "react-icons/cg";
+// import { CgSmartHomeRefrigerator } from "react-icons/cg";
+// import { HiOutlineLightBulb } from "react-icons/hi";
+import { FaFan } from "react-icons/fa";
+
 import Switch from "@mui/material/Switch";
 import { IconContext } from "react-icons";
-import { alpha, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import { amber } from "@mui/material/colors";
 
 const AmberSwitch = styled(Switch)(({ theme }) => ({
@@ -21,17 +29,19 @@ export const Device = (props) => {
   };
 
   return (
-    <div className={status ? "note active-note" : "note"}>
+    <div id={props.id} className="note">
       <p id="status">{status ? "ON" : "OFF"}</p>
       <AmberSwitch onChange={onClickHandler} />
+
       <IconContext.Provider value={{ className: "react-icons" }}>
-        {props.img == null ? (
+        {/* {props.img == null ? (
           props.icon
         ) : (
           <img src={props.img} alt="device-icon" />
-        )}
+        )} */}
+        <FaFan />
       </IconContext.Provider>
-      <p>{props.name}</p>
+      <p>{props.id}</p>
     </div>
   );
 };
