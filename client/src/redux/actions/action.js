@@ -5,8 +5,18 @@ export const getDevices = () => (dispatch) => {
     .then((res) => res.json())
     .then((devices) => {
       dispatch({
-        type: actions.GET_CURRENT_ROOM_DEVICES,
+        type: actions.GET_MY_DEVICES,
         payload: devices,
       });
     });
 };
+
+export const selectedDevice = (id) => ({
+  type: actions.SELECTED_DEVICE,
+  payload: id,
+});
+
+export const showDropdown = (status) => ({
+  type: actions.SHOW_DROPDOWN,
+  payload: status,
+});

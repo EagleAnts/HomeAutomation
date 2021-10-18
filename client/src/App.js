@@ -21,17 +21,24 @@ export default function App() {
           sx={{ height: "100vh", width: "100vw" }}
           justifyContent="flex-start"
           alignItems="flex-start"
-          spacing="2"
+          spacing={3}
         >
           <Router>
             <Fragment>
               <Grid item xs={12} sm={12} md={12}>
                 <Navbar />
               </Grid>
-              <Grid item md={1} alignItems="flex-start">
+              <Grid item md={1} alignItems="flex-start" mt={3}>
                 <Menu title="menu" />
               </Grid>
-              <Grid item md={11} container spacing={3} alignItems="flex-start">
+              <Grid
+                item
+                md={11}
+                container
+                spacing={3}
+                alignItems="flex-start"
+                mt={1}
+              >
                 <Route exact path="/" component={Home} />
                 <Switch>
                   <Route path="/dashboard" component={Dashboard} />
@@ -55,7 +62,14 @@ export default function App() {
               <Grid item flexflow="row wrap" xs={12} sm={12} md={12}>
                 <Navbar />
               </Grid>
-              <Grid item md={12} container spacing={2} justifyContent="center">
+              <Grid
+                item
+                md={12}
+                container
+                spacing={2}
+                justifyContent="center"
+                mt={1}
+              >
                 <Route exact path="/" component={Home} />
                 <Switch>
                   <Route path="/dashboard" component={Dashboard} />

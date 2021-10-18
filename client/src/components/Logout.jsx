@@ -1,5 +1,10 @@
 import React from "react";
+// import { Dropdown } from "./Dropdown";
 
 export const Logout = () => {
-  return <div>Logout!</div>;
+  return (
+    <div>
+      {/* <Dropdown /> */}
+    </div>
+  );
 };

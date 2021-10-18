@@ -7,25 +7,16 @@ import { MdDashboard } from "react-icons/md";
 import { IoExitOutline } from "react-icons/io5";
 
 export const Menu = (props) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleOnClick = (index) => {
-    setActiveIndex(index);
-  };
   return (
     <nav className={props.title}>
-      <NavLink to="/" onClick={() => handleOnClick(0)}>
-        <HiHome className={`menu_items ${activeIndex === 0 ? "active" : ""}`} />
+      <NavLink exact to="/" activeClassName="activeLink">
+        <HiHome className="menu_items" />
       </NavLink>
-      <NavLink to="/dashboard" onClick={() => handleOnClick(1)}>
-        <MdDashboard
-          className={`menu_items ${activeIndex === 1 ? "active" : ""}`}
-        />
+      <NavLink to="/dashboard" activeClassName="activeLink">
+        <MdDashboard className="menu_items" />
       </NavLink>
-      <NavLink to="/logout" onClick={() => handleOnClick(2)}>
-        <IoExitOutline
-          className={`menu_items ${activeIndex === 2 ? "active" : ""}`}
-        />
+      <NavLink to="/logout" activeClassName="activeLink">
+        <IoExitOutline className="menu_items" />
       </NavLink>
     </nav>
   );

@@ -1,4 +1,6 @@
 import { combineReducers } from "redux";
-import currentRoomDevices from "./currentRoomDevices";
+import DeviceStatus from "./DeviceReducer";
+import SelectedDevice from "./ActiveDevice";
+import ShowDropdown from "./DropdownReducer";
 
-export default combineReducers({ currentRoomDevices });
+export default combineReducers({ DeviceStatus, SelectedDevice, ShowDropdown });

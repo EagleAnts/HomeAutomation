@@ -7,19 +7,9 @@ import React from "react";
 // import { HiOutlineLightBulb } from "react-icons/hi";
 import { FaFan } from "react-icons/fa";
 
-import Switch from "@mui/material/Switch";
 import { IconContext } from "react-icons";
-import { styled } from "@mui/system";
-import { amber } from "@mui/material/colors";
 
-const AmberSwitch = styled(Switch)(({ theme }) => ({
-  "& .MuiSwitch-switchBase.Mui-checked": {
-    color: amber[700],
-  },
-  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: amber[700],
-  },
-}));
+import { AmberSwitch } from "./Switch";
 
 export const Device = (props) => {
   const [status, setStatus] = React.useState(0);
@@ -29,7 +19,13 @@ export const Device = (props) => {
   };
 
   return (
-    <div id={props.id} className="note">
+    <div
+      id={props.id}
+      className="note"
+      style={{
+        backgroundColor: props.backgroundColor,
+      }}
+    >
       <p id="status">{status ? "ON" : "OFF"}</p>
       <AmberSwitch onChange={onClickHandler} />
 

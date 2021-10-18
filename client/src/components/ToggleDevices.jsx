@@ -1,21 +1,35 @@
 import React from "react";
+import { connect } from "react-redux";
+import { selectedDevice } from "../redux/actions/action";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 
 const ToggleDevices = (props) => {
-  return (
-    <>
-      <input
-        type="radio"
-        name="buttonGroup"
-        id={props.id}
-        onChange={props.onChange}
-      />
-      <label htmlFor={props.id}>
-        <CgSmartHomeRefrigerator fontSize="50px" />
-        {props.value}
-      </label>
-    </>
-  );
+  const handleOnChange = (e) => {
+    props.selectedDevice(e.target.id);
+  };
+
+  const toggleDevicesList = props.currentRoom.map((el) => {
+    return (
+      <div key={el.id}>
+        <input
+          type="radio"
+          name="buttonGroup"
+          id={el.id}
+          onChange={handleOnChange.bind(this)}
+        />
+        <label htmlFor={el.id}>
+          <CgSmartHomeRefrigerator fontSize="50px" />
+          {el.name}
+        </label>
+      </div>
+    );
+  });
+
+  return <>{toggleDevicesList}</>;
 };
 
-export default ToggleDevices;
+const mapStateToProps = (state) => ({
+  currentRoom: state.DeviceStatus.currentRoom,
+});
+
+export default connect(mapStateToProps, { selectedDevice })(ToggleDevices);
