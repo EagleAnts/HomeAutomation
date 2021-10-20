@@ -57,6 +57,7 @@ body {
   justify-content: space-around;
   position: fixed;
   bottom: 0;
+  z-index: 9999;
   left: 0;
   width: 100vw;
   height: auto;
@@ -69,8 +70,7 @@ body {
   /* align-items: center; */
   display: block;
   height: 75vh;
-  width: 60%;
-  margin-left: 10px;
+  width: 4rem;
   border-radius: 0.5rem;
   background-color: #7b40f2;
   /* overflow: hidden; */

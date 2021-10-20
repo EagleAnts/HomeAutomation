@@ -8,26 +8,23 @@ import { AiOutlineDown } from "react-icons/ai";
 import { Device } from "./Device";
 import { Box } from "@mui/system";
 import { Card } from "@mui/material";
-
-import Chart from "./Consumption/PowerConsumption";
-
+import Modal from "./TransitionModal";
 import DeviceInfo from "./DeviceStatus";
+import Chart from "./Consumption/PowerConsumption";
 
 import UserDevices from "./UserDevices";
 import ToggleDevices from "./ToggleDevices";
 
 export const Dashboard = () => {
   const temperature = 40;
-
   return (
     <>
-      <Grid item xs={12} sm={12} md={12} lg={7} height="100%">
+      <Grid item xs={12} sm={12} md={12} lg={7}>
         <Paper
           className="greetings"
           elevation={3}
           sx={{
             p: 2,
-            ml: 2,
             bgcolor: "white",
             borderRadius: "1.5rem",
           }}
@@ -60,21 +57,26 @@ export const Dashboard = () => {
             <span>Fuzzy cloudy weather</span>
           </Typography>
         </Paper>
-        <Box
-          className="devices"
-          sx={{
-            display: "grid",
-            gridAutoFlow: "column",
-            overflowX: "scroll",
-            columnGap: "2%",
-          }}
-          justifySelf="center"
-          justifyContent="flex-start"
-          borderRadius="1.5rem"
-          margin="2%"
-          padding="2%"
-        >
-          <ToggleDevices />
+        <Box sx={{ display: "flex", flexDirection: "column", margin: "2%" }}>
+          <div style={{ alignSelf: "flex-end" }}>
+            <Modal />
+          </div>
+          <Box
+            className="devices"
+            sx={{
+              display: "grid",
+              gridAutoFlow: "column",
+              overflowX: "scroll",
+              columnGap: "2%",
+            }}
+            justifySelf="center"
+            justifyContent="flex-start"
+            borderRadius="1.5rem"
+            margin="2%"
+            padding="2%"
+          >
+            <ToggleDevices />
+          </Box>
         </Box>
 
         <Grid item sm={12} xs={12} md={12}>

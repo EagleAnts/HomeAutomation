@@ -126,6 +126,6 @@ export const getDeviceTypeInfo = () => {
     if (width > IdDeviceBreakpointsByWidth.laptop_max) {
       buildDeviceDetails.deviceType = "LargerThanLaptop";
     }
-    return buildDeviceDetails;
   }
+  return buildDeviceDetails;
 };

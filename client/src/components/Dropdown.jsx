@@ -6,13 +6,13 @@ import { connect } from "react-redux";
 const options = ["ON", "OFF"];
 
 const Dropdown = (props) => {
-  const { isOpen, showDropdown } = props;
-  // const [isOpen, setOpen] = useState(false);
+  // const { isOpen, showDropdown } = props;
+  const [isOpen, setOpen] = useState(false);
   const [haveText, sethaveText] = useState("");
 
   const handleClick = () => {
-    // setOpen(!isOpen);
-    showDropdown(!isOpen);
+    setOpen(!isOpen);
+    // showDropdown(!isOpen);
   };
 
   const handleText = (ev) => {
@@ -39,9 +39,9 @@ const Dropdown = (props) => {
       onClick={handleClick}
     >
       <div className="dropdown__text">
-        {!haveText ? "Select Status" : haveText}
+        {!haveText ? `Select ${props.description}` : haveText}
       </div>
-      {itemList(options)}
+      {itemList(props.options)}
     </div>
   );
 };

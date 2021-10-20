@@ -7,42 +7,45 @@ import "./App.css";
 // Components
 import { Navbar } from "./components/Navbar";
 import { Menu } from "./components/Menu";
-import { Home } from "./components/Home";
+// import { Home } from "./components/Home";
+// import { Logout } from "./components/Logout";
 import { Dashboard } from "./components/Dashboard";
-import { Logout } from "./components/Logout";
+import { AllDevices } from "./components/AllDevices";
 import { Grid } from "@mui/material";
 
 export default function App() {
   return (
     <div className="App">
-      <Responsive displayIn={["Laptop"]}>
+      <Responsive displayIn={["LargerThanLaptop"]}>
         <Grid
           container
-          sx={{ height: "100vh", width: "100vw" }}
+          sx={{ height: "inherit", width: "inherit" }}
           justifyContent="flex-start"
           alignItems="flex-start"
-          spacing={3}
+          m={1}
         >
           <Router>
             <Fragment>
               <Grid item xs={12} sm={12} md={12}>
                 <Navbar />
               </Grid>
-              <Grid item md={1} alignItems="flex-start" mt={3}>
+              <Grid item md={1} lg={1} mt={2} p={2}>
                 <Menu title="menu" />
               </Grid>
               <Grid
                 item
                 md={11}
+                lg={11}
+                mt={2}
                 container
                 spacing={3}
                 alignItems="flex-start"
-                mt={1}
               >
-                <Route exact path="/" component={Home} />
+                {/* <Route exact path="/" component={Home} /> */}
+                <Route path="/dashboard" component={Dashboard} />
                 <Switch>
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/logout" component={Logout} />
+                  <Route path="/devices" component={AllDevices} />
+                  {/* <Route path="/logout" component={Logout} /> */}
                 </Switch>
               </Grid>
             </Fragment>
@@ -50,12 +53,13 @@ export default function App() {
         </Grid>
       </Responsive>
 
-      <Responsive displayIn={["Mobile", "Tablet"]}>
+      <Responsive displayIn={["Laptop", "Mobile", "Tablet"]}>
         <Grid
           container
-          sx={{ height: "100vh", width: "100vw" }}
+          sx={{ height: "inherit", width: "inherit" }}
           justifyContent="center"
           spacing="2"
+          m={2}
         >
           <Router>
             <Fragment>
@@ -70,10 +74,11 @@ export default function App() {
                 justifyContent="center"
                 mt={1}
               >
-                <Route exact path="/" component={Home} />
+                {/* <Route exact path="/" component={Home} /> */}
+                <Route path="/dashboard" component={Dashboard} />
                 <Switch>
-                  <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/logout" component={Logout} />
+                  <Route path="/devices" component={AllDevices} />
+                  {/* <Route path="/logout" component={Logout} /> */}
                 </Switch>
               </Grid>
               <Grid item md={2}>
