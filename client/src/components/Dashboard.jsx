@@ -8,15 +8,23 @@ import { AiOutlineDown } from "react-icons/ai";
 import { Device } from "./Device";
 import { Box } from "@mui/system";
 import { Card } from "@mui/material";
-import Modal from "./TransitionModal";
+// import Modal from "./TransitionModal";
 import DeviceInfo from "./DeviceStatus";
 import Chart from "./Consumption/PowerConsumption";
+import Dropdown from "./Dropdown";
 
 import UserDevices from "./UserDevices";
 import ToggleDevices from "./ToggleDevices";
 
-export const Dashboard = () => {
+export const Dashboard = (props) => {
   const temperature = 40;
+  const options = ["Living Room", "Dining Room", "Bedroom", "Hall"];
+
+  const handleClick = (e) => {
+    const id = e.target.id;
+    props.showDropdown({ id });
+  };
+
   return (
     <>
       <Grid item xs={12} sm={12} md={12} lg={7}>
@@ -59,7 +67,13 @@ export const Dashboard = () => {
         </Paper>
         <Box sx={{ display: "flex", flexDirection: "column", margin: "2%" }}>
           <div style={{ alignSelf: "flex-end" }}>
-            <Modal />
+            <Dropdown
+              id="areaDropdown"
+              options={options}
+              description="Rooms"
+              onClick={handleClick.bind(this)}
+              isOpen={props.areaDropdown}
+            />
           </div>
           <Box
             className="devices"

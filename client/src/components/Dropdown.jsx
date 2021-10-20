@@ -1,18 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
 import "./dropdown.css";
-import { showDropdown } from "../redux/actions/action";
-import { connect } from "react-redux";
-
-const options = ["ON", "OFF"];
 
 const Dropdown = (props) => {
-  // const { isOpen, showDropdown } = props;
-  const [isOpen, setOpen] = useState(false);
+  const dropDownRef = useRef(null);
+  const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
   const [haveText, sethaveText] = useState("");
 
   const handleClick = () => {
-    setOpen(!isOpen);
-    // showDropdown(!isOpen);
+    setIsActive(!isActive);
   };
 
   const handleText = (ev) => {
@@ -35,7 +31,11 @@ const Dropdown = (props) => {
 
   return (
     <div
-      className={isOpen ? "dropdown active" : "dropdown"}
+      ref={dropDownRef}
+      id={props.id}
+      className={
+        isActive ? "dropdown active selectDisable" : "dropdown selectDisable"
+      }
       onClick={handleClick}
     >
       <div className="dropdown__text">
@@ -46,8 +46,4 @@ const Dropdown = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  isOpen: state.ShowDropdown.isOpen,
-});
-
-export default connect(mapStateToProps, { showDropdown })(Dropdown);
+export default Dropdown;

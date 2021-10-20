@@ -7,8 +7,6 @@ import "./App.css";
 // Components
 import { Navbar } from "./components/Navbar";
 import { Menu } from "./components/Menu";
-// import { Home } from "./components/Home";
-// import { Logout } from "./components/Logout";
 import { Dashboard } from "./components/Dashboard";
 import { AllDevices } from "./components/AllDevices";
 import { Grid } from "@mui/material";

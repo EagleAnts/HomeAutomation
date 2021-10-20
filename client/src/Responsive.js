@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  getDeviceTypeInfo,
   getWindowDimension,
   IdDeviceBreakpointsByWidth,
   IdMobileHeight,
@@ -36,7 +35,6 @@ export class Responsive extends React.PureComponent {
   };
 
   shouldRender = (display, width, height) => {
-    console.log(display);
     if (
       display.indexOf("LargerThanLaptop") !== -1 &&
       width >= IdDeviceBreakpointsByWidth.laptop_max

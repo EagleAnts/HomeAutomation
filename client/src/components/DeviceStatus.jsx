@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Card } from "@mui/material";
 import dial from "../assets/dial.png";
 import CircularSlider from "@fseehawer/react-circular-slider";
-import { IoAtOutline, IoLocationOutline } from "react-icons/io5";
+import { IoLocationOutline } from "react-icons/io5";
 import { TiPlus, TiMinus } from "react-icons/ti";
 
 import { CustomButton } from "./CustomButton";
 import Dropdown from "./Dropdown";
-import { showDropdown } from "../redux/actions/action";
 
 const dataArray = [];
 for (let i = 0; i <= 100; i += 5) dataArray.push(`${i}`);
 
 const DeviceStatus = (props) => {
   const options = ["ON", "OFF"];
+
   return (
     <>
       <Card
@@ -29,12 +29,6 @@ const DeviceStatus = (props) => {
           borderRadius: "1.25rem",
           bgcolor: "white",
         }}
-        onClick={(e) => {
-          let el = document.querySelector(".dropdown");
-          if (e.target !== el && el.className.includes("active")) {
-            props.showDropdown(!props.isOpen);
-          }
-        }}
       >
         <div
           style={{
@@ -45,7 +39,11 @@ const DeviceStatus = (props) => {
           }}
         >
           Currently Selected Device is : {props.activeDevice}
-          <Dropdown options={options} description="Status" />
+          <Dropdown
+            id="deviceDropdown"
+            options={options}
+            description="Status"
+          />
         </div>
         <div id="status-indicator">
           <CustomButton>
@@ -73,6 +71,7 @@ const DeviceStatus = (props) => {
           </div>
           <img
             src={dial}
+            alt="jpg"
             style={{
               m: 2,
               width: "420px",
@@ -92,7 +91,5 @@ const DeviceStatus = (props) => {
 
 const mapStateToProps = (state) => ({
   activeDevice: state.SelectedDevice.activeDevice,
-  isOpen: state.ShowDropdown.isOpen,
 });
-
-export default connect(mapStateToProps, { showDropdown })(DeviceStatus);
+export default connect(mapStateToProps)(DeviceStatus);

@@ -20,8 +20,6 @@ const style = {
 };
 
 export default function TransitionsModal() {
-  const options = ["Dining Room", "Bedroom", "Hall", "Kitchen", "Living Room"];
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

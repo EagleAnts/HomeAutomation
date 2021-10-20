@@ -15,8 +15,3 @@ export const selectedDevice = (id) => ({
   type: actions.SELECTED_DEVICE,
   payload: id,
 });
-
-export const showDropdown = (status) => ({
-  type: actions.SHOW_DROPDOWN,
-  payload: status,
-});
