@@ -69,14 +69,17 @@ const DeviceStatus = (props) => {
               <IoLocationOutline id="Slider-icon" fontSize="45px" />
             </CircularSlider>
           </div>
+
           <img
             src={dial}
             alt="jpg"
             style={{
               m: 2,
-              width: "420px",
+              maxWidth: "420px",
+              maxHeight:"300px",
             }}
           />
+
           <div id="circle">
             <div id="small-circle"></div>
           </div>

@@ -18,7 +18,14 @@ import ToggleDevices from "./ToggleDevices";
 
 export const Dashboard = (props) => {
   const temperature = 40;
-  const options = ["Living Room", "Dining Room", "Bedroom", "Hall"];
+  const options = [
+    "Living Room",
+    "Dining Room",
+    "Bedroom",
+    "Hall",
+    "Kitchen",
+    "Bathroom",
+  ];
 
   const handleClick = (e) => {
     const id = e.target.id;

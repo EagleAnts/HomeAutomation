@@ -22,7 +22,8 @@ const UserDevices = (props) => {
     return (
       <Device
         key={el.id}
-        id={el.name}
+        id={el.id}
+        description={el.name}
         backgroundColor={generateRandomColors()}
       />
     );

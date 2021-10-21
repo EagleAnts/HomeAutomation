@@ -15,3 +15,8 @@ export const selectedDevice = (id) => ({
   type: actions.SELECTED_DEVICE,
   payload: id,
 });
+
+export const changeStatus = (status) => ({
+  type: actions.CHANGE_DEVICE_STATUS,
+  payload: status,
+});

@@ -5,7 +5,7 @@ import "./dropdown.css";
 const Dropdown = (props) => {
   const dropDownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
-  const [haveText, sethaveText] = useState("");
+  const [haveText, sethaveText] = useState(`Select ${props.description}`);
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -38,9 +38,7 @@ const Dropdown = (props) => {
       }
       onClick={handleClick}
     >
-      <div className="dropdown__text">
-        {!haveText ? `Select ${props.description}` : haveText}
-      </div>
+      <div className="dropdown__text">{haveText}</div>
       {itemList(props.options)}
     </div>
   );

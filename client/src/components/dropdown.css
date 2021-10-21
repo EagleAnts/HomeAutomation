@@ -60,7 +60,7 @@
     visibility: visible;
     border-top: 0.1px solid rgba(0, 0, 0, 0.3);
     height: auto;
-    max-height: 200px;
+    max-height: 120px;
     opacity: 1;
     transition: max-height 0.6s ease-in-out;
     overflow-y: scroll;
