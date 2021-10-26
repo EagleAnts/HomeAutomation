@@ -1,14 +1,14 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { selectedDevice } from "../redux/actions/action";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
-const ToggleDevices = (props) => {
+const buildToggleDevices = (dispatch, devicesList) => {
   const handleOnChange = (e) => {
-    props.selectedDevice(e.target.id);
+    dispatch(selectedDevice(e.target.id));
   };
-
-  const toggleDevicesList = props.currentRoom.map((el) => {
+  return devicesList.map((el) => {
     return (
       <div key={el.id}>
         <input
@@ -24,12 +24,20 @@ const ToggleDevices = (props) => {
       </div>
     );
   });
+};
+
+const ToggleDevices = (props) => {
+  console.log("Rendering Toggle Devices....");
+
+  const dispatch = useDispatch();
+
+  const currentRoomDevices = useSelector(
+    (state) => state.GetUserDevices.currentRoom
+  );
+
+  const toggleDevicesList = buildToggleDevices(dispatch, currentRoomDevices);
 
   return <>{toggleDevicesList}</>;
 };
 
-const mapStateToProps = (state) => ({
-  currentRoom: state.DeviceStatus.currentRoom,
-});
-
-export default connect(mapStateToProps, { selectedDevice })(ToggleDevices);
+export default ToggleDevices;

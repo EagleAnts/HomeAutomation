@@ -1,17 +1,44 @@
-import React, { Fragment } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import React, { Fragment, useContext, useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Responsive } from "./Responsive";
-
 import "./App.css";
+import { useDispatch } from "react-redux";
+import { getDevices } from "./redux/actions/action";
+
+//Socket.io
+
+import { SocketContext } from "./context/socket";
 
 // Components
 import { Navbar } from "./components/Navbar";
 import { Menu } from "./components/Menu";
-import { Dashboard } from "./components/Dashboard";
-import { AllDevices } from "./components/AllDevices";
+
 import { Grid } from "@mui/material";
+import Routes from "./Routes";
 
 export default function App() {
+  console.log("rendering....");
+
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDevices());
+
+    socket.on("connect", () => {
+      console.log(`You Connected with id ${socket.id}`);
+    });
+
+    socket.on("connect_error", () => {
+      console.log("Connection failed ...");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("You are now disconnected");
+      socket.disconnect();
+    });
+  }, [dispatch, socket]);
+
   return (
     <div className="App">
       <Responsive displayIn={["LargerThanLaptop"]}>
@@ -39,12 +66,7 @@ export default function App() {
                 spacing={3}
                 alignItems="flex-start"
               >
-                {/* <Route exact path="/" component={Home} /> */}
-                <Route path="/dashboard" component={Dashboard} />
-                <Switch>
-                  <Route path="/devices" component={AllDevices} />
-                  {/* <Route path="/logout" component={Logout} /> */}
-                </Switch>
+                <Routes />
               </Grid>
             </Fragment>
           </Router>
@@ -72,12 +94,7 @@ export default function App() {
                 justifyContent="center"
                 mt={1}
               >
-                {/* <Route exact path="/" component={Home} /> */}
-                <Route path="/dashboard" component={Dashboard} />
-                <Switch>
-                  <Route path="/devices" component={AllDevices} />
-                  {/* <Route path="/logout" component={Logout} /> */}
-                </Switch>
+                <Routes />
               </Grid>
               <Grid item md={2}>
                 <Menu title="mobile-menu" />

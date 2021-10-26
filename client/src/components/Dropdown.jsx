@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
 import "./dropdown.css";
 
@@ -14,6 +14,18 @@ const Dropdown = (props) => {
   const handleText = (ev) => {
     sethaveText(ev.currentTarget.textContent);
   };
+
+  useEffect(() => {
+    if (props.id === "deviceDropdown") {
+      haveText === "OFF"
+        ? document
+            .querySelector("#status-indicator")
+            .setAttribute("disabled", "")
+        : document
+            .querySelector("#status-indicator")
+            .removeAttribute("disabled", "");
+    }
+  }, [haveText, props.id]);
 
   const itemList = (options) => {
     const list = options.map((item) => (
@@ -33,9 +45,7 @@ const Dropdown = (props) => {
     <div
       ref={dropDownRef}
       id={props.id}
-      className={
-        isActive ? "dropdown active selectDisable" : "dropdown selectDisable"
-      }
+      className={isActive ? "dropdown active " : "dropdown "}
       onClick={handleClick}
     >
       <div className="dropdown__text">{haveText}</div>

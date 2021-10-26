@@ -1,14 +1,9 @@
 import * as actions from "./actionTypes";
 
-export const getDevices = () => (dispatch) => {
-  fetch("http://localhost:5000/api/devices")
-    .then((res) => res.json())
-    .then((devices) => {
-      dispatch({
-        type: actions.GET_MY_DEVICES,
-        payload: devices,
-      });
-    });
+export const getDevices = () => async (dispatch) => {
+  const res = await fetch("http://localhost:5000/api/devices");
+  const data = await res.json();
+  dispatch({ type: actions.GET_MY_DEVICES, payload: data });
 };
 
 export const selectedDevice = (id) => ({

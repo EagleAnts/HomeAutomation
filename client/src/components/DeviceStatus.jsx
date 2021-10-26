@@ -15,6 +15,11 @@ for (let i = 0; i <= 100; i += 5) dataArray.push(`${i}`);
 const DeviceStatus = (props) => {
   const options = ["ON", "OFF"];
 
+  React.useEffect(() => {
+    if (props.activeDevice !== " ")
+      document.querySelector("#status-indicator").style.visibility = "visible";
+  }, [props.activeDevice]);
+
   return (
     <>
       <Card
@@ -45,7 +50,8 @@ const DeviceStatus = (props) => {
             description="Status"
           />
         </div>
-        <div id="status-indicator">
+
+        <div id="status-indicator" style={{ visibility: "hidden" }}>
           <CustomButton>
             <TiMinus />
           </CustomButton>
@@ -76,7 +82,7 @@ const DeviceStatus = (props) => {
             style={{
               m: 2,
               maxWidth: "420px",
-              maxHeight:"300px",
+              maxHeight: "300px",
             }}
           />
 

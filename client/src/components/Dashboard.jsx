@@ -1,14 +1,24 @@
 import React from "react";
+
 import PropTypes from "prop-types";
-import { Grid, Paper, Tooltip, Typography } from "@mui/material";
-import { IconButton } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Tooltip,
+  Typography,
+  IconButton,
+  Card,
+} from "@mui/material";
+import { Box } from "@mui/system";
+
+import { useHistory } from "react-router-dom";
+
 import { FaTemperatureLow } from "react-icons/fa";
 import { BsCloud } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
-import { Device } from "./Device";
-import { Box } from "@mui/system";
-import { Card } from "@mui/material";
+
 // import Modal from "./TransitionModal";
+import { Device } from "./Device";
 import DeviceInfo from "./DeviceStatus";
 import Chart from "./Consumption/PowerConsumption";
 import Dropdown from "./Dropdown";
@@ -17,6 +27,8 @@ import UserDevices from "./UserDevices";
 import ToggleDevices from "./ToggleDevices";
 
 export const Dashboard = (props) => {
+  console.log("Rendering Dashboard...");
+
   const temperature = 40;
   const options = [
     "Living Room",
@@ -27,9 +39,15 @@ export const Dashboard = (props) => {
     "Bathroom",
   ];
 
+  const history = useHistory();
+
   const handleClick = (e) => {
     const id = e.target.id;
     props.showDropdown({ id });
+  };
+
+  const goToDevices = () => {
+    history.push("/devices");
   };
 
   return (
@@ -141,8 +159,8 @@ export const Dashboard = (props) => {
               justifyContent="center"
             >
               <Tooltip title="View More">
-                <IconButton>
-                  <AiOutlineDown />
+                <IconButton onClick={goToDevices}>
+                  <AiOutlineDown color="#7b40f2" />
                 </IconButton>
               </Tooltip>
             </Box>
