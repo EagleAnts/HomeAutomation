@@ -18,6 +18,10 @@ const GetDevicesReducer = (state = initialState, action) =>
         draft.currentRoom = action.payload;
         break;
 
+      case actions.UPDATE_DEVICES:
+        draft.myDevices.push(action.payload);
+        break;
+
       default:
         break;
     }

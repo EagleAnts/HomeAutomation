@@ -1,10 +1,9 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Responsive } from "./Responsive";
 import "./App.css";
-import { useDispatch } from "react-redux";
-import { getDevices } from "./redux/actions/action";
 
+import { useFetch } from "./hooks/useFetch";
 //Socket.io
 
 import { SocketContext } from "./context/socket";
@@ -15,16 +14,15 @@ import { Menu } from "./components/Menu";
 
 import { Grid } from "@mui/material";
 import Routes from "./Routes";
+import Loading from "./Loading";
 
 export default function App() {
   console.log("rendering....");
 
+  const [loading, setLoading] = useFetch(true);
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getDevices());
-
     socket.on("connect", () => {
       console.log(`You Connected with id ${socket.id}`);
     });
@@ -37,9 +35,11 @@ export default function App() {
       console.log("You are now disconnected");
       socket.disconnect();
     });
-  }, [dispatch, socket]);
+  }, [socket]);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="App">
       <Responsive displayIn={["LargerThanLaptop"]}>
         <Grid

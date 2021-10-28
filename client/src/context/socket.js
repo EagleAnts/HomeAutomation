@@ -7,6 +7,6 @@ export const socket = io(ENDPOINT, {
   reconnection: true,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
-  reconnectionAttempts: Infinity,
+  reconnectionAttempts: 2,
 });
 export const SocketContext = createContext();

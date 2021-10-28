@@ -18,9 +18,10 @@ const UserDevices = () => {
   const myDevicesList = myDevices.map((el) => {
     return (
       <Device
-        key={el.id}
-        id={el.id}
+        key={el.deviceID}
+        id={el.deviceID}
         description={el.name}
+        icon={el.description.icon}
         backgroundColor={generateRandomColors()}
       />
     );

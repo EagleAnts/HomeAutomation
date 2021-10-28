@@ -17,7 +17,6 @@ import { FaTemperatureLow } from "react-icons/fa";
 import { BsCloud } from "react-icons/bs";
 import { AiOutlineDown } from "react-icons/ai";
 
-// import Modal from "./TransitionModal";
 import { Device } from "./Device";
 import DeviceInfo from "./DeviceStatus";
 import Chart from "./Consumption/PowerConsumption";

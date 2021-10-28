@@ -10,14 +10,14 @@ const buildToggleDevices = (dispatch, devicesList) => {
   };
   return devicesList.map((el) => {
     return (
-      <div key={el.id}>
+      <div key={el.name}>
         <input
           type="radio"
           name="buttonGroup"
-          id={el.id}
+          id={el.name}
           onChange={handleOnChange.bind(this)}
         />
-        <label htmlFor={el.id}>
+        <label htmlFor={el.name}>
           <CgSmartHomeRefrigerator fontSize="50px" />
           {el.name}
         </label>
@@ -26,13 +26,13 @@ const buildToggleDevices = (dispatch, devicesList) => {
   });
 };
 
-const ToggleDevices = (props) => {
+const ToggleDevices = () => {
   console.log("Rendering Toggle Devices....");
 
   const dispatch = useDispatch();
 
   const currentRoomDevices = useSelector(
-    (state) => state.GetUserDevices.currentRoom
+    (state) => state.GetUserDevices.myDevices
   );
 
   const toggleDevicesList = buildToggleDevices(dispatch, currentRoomDevices);

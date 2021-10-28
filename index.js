@@ -1,13 +1,18 @@
 const express = require("express");
+const connectDB = require("./config/db");
 const app = express();
+
+//Connect Database
+
+connectDB();
 
 //Init MiddleWare
 
 app.use(express.json());
 
-app.get("/", (req, res) => res.send("API Running"));
-
 //Defining Routes
+
+app.get("/", (req, res) => res.send("API Running"));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -18,9 +23,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use("/api/devices", require("./route/api/devices"));
-
-// app.use("/api/devices", require("./route/api/devices"));
+app.use("/api/device", require("./route/api/device"));
 
 const PORT = process.env.PORT || 5000;
 
