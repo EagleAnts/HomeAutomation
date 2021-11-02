@@ -7,12 +7,33 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import { getDevices } from "../redux/actions/action";
+// import { Popper } from "@mui/material";
+import { styled } from "@mui/system";
+
 import { refreshDevices } from "../redux/actions/action";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { Autocomplete } from "@mui/material";
+
+//Devices List
+import { devicesList } from "../optionsList/devicesList";
+
+const CustomTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#7b40f2",
+  },
+  "& .MuiOutlinedInput-root": {
+    "&.Mui-focused fieldset": {
+      borderColor: "#7b40f2",
+    },
+  },
+});
+
+const CustomButton = styled(Button)({
+  "&:hover": {
+    backgroundColor: "#6b3fc3",
+  },
+});
 
 const style = {
   height: "400px",
@@ -31,8 +52,6 @@ const style = {
 
 const FormPropsTextFields = (props) => {
   const dispatch = useDispatch();
-
-  const options = ["Fan", "Lights"];
 
   const [name, setName] = React.useState("");
 
@@ -84,24 +103,25 @@ const FormPropsTextFields = (props) => {
       justifyContent="space-around"
       m={2}
     >
-      <TextField
+      <CustomTextField
         required
         id="outlined-required"
         label="Name"
-        placeholder="(For eg. Fan1/Fan2,Lights/Bathroom_Lights)"
+        placeholder="(Give any name to device)"
         onChange={(e) => {
-          setName(e.target.value);
+          setName(e.target.value.trim());
         }}
       />
+
       <Autocomplete
         id="Device-Type"
         autoComplete
-        options={options}
+        options={devicesList}
         onChange={(e, value) => {
           setOption(value);
         }}
         renderInput={(params) => (
-          <TextField
+          <CustomTextField
             {...params}
             label="Select Device"
             placeholder="(Device Description)"
@@ -111,26 +131,26 @@ const FormPropsTextFields = (props) => {
             {option}
           </MenuItem>
         ))} */}
-          </TextField>
+          </CustomTextField>
         )}
       />
-      <TextField
+      <CustomTextField
         required
         id="outlined-required"
         label="Area"
-        placeholder="(For e.g. Living Room/Bathroom/Kitchen)"
+        placeholder="(For e.g. Living Room | Bathroom | Kitchen)"
         onChange={(e) => {
-          setArea(e.target.value.toLowerCase());
+          setArea(e.target.value.toLowerCase().trim());
         }}
       />
 
-      <Button
+      <CustomButton
         variant="contained"
         sx={{ backgroundColor: "#7b40f2", margin: "8px", width: "100%" }}
         type="submit"
       >
         Submit
-      </Button>
+      </CustomButton>
     </Box>
   );
 };

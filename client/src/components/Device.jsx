@@ -21,7 +21,7 @@ const DeviceComponent = (props) => {
 
   return (
     <div
-      id={`${props.name}`}
+      id={props.name}
       className="note"
       style={{
         backgroundColor: props.backgroundColor,
@@ -31,7 +31,9 @@ const DeviceComponent = (props) => {
       <AmberSwitch id={props.id} onChange={onClickHandler.bind(this)} />
 
       <IconContext.Provider value={{ className: "react-icons" }}>
-        <div dangerouslySetInnerHTML={{ __html: props.icon }}></div>
+        <div>
+          <img src={props.icon} alt="icon" height="60px" width="60px" />
+        </div>
       </IconContext.Provider>
       <p>{props.description}</p>
     </div>

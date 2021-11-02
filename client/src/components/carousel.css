@@ -22,16 +22,16 @@
 }
 
 .device-container {
-  vertical-align: middle;
-  display: table-row-group;
+  display: flex;
   height: 100%;
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
+  justify-content: flex-start;
 }
 .device {
-  display: inline-block;
+  flex-shrink: 0;
   width: 200px;
   height: 100px;
   font-size: 20px;

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import {
   Grid,
@@ -24,6 +24,11 @@ import Dropdown from "./Dropdown";
 
 import UserDevices from "./UserDevices";
 import ToggleDevices from "./ToggleDevices";
+
+const gridAnimations = {
+  in: { opacity: 1 },
+  out: { opacity: 0 },
+};
 
 export const Dashboard = (props) => {
   console.log("Rendering Dashboard...");
@@ -51,7 +56,18 @@ export const Dashboard = (props) => {
 
   return (
     <>
-      <Grid item xs={12} sm={12} md={12} lg={7}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        md={12}
+        lg={7}
+        component={motion.div}
+        variants={gridAnimations}
+        initial="out"
+        animate="in"
+        exit="out"
+      >
         <Paper
           className="greetings"
           elevation={3}
@@ -89,7 +105,14 @@ export const Dashboard = (props) => {
             <span>Fuzzy cloudy weather</span>
           </Typography>
         </Paper>
-        <Box sx={{ display: "flex", flexDirection: "column", margin: "2%" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            margin: "2%",
+            height: "250px",
+          }}
+        >
           <div style={{ alignSelf: "flex-end" }}>
             <Dropdown
               id="areaDropdown"
@@ -131,6 +154,11 @@ export const Dashboard = (props) => {
         container
         rowSpacing={2}
         borderRadius="1.25rem"
+        component={motion.div}
+        variants={gridAnimations}
+        initial="out"
+        animate="in"
+        exit="out"
       >
         <Grid item xs={12} sm={12} md={12}>
           <Card

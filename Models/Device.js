@@ -8,6 +8,7 @@ const DeviceSchema = new Schema({
 
   name: {
     type: String,
+    trim: true,
   },
 
   description: {
@@ -18,6 +19,7 @@ const DeviceSchema = new Schema({
   area: {
     type: String,
     required: true,
+    trim: true,
   },
   status: {
     type: Boolean,

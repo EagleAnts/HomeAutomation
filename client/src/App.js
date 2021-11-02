@@ -1,11 +1,10 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Responsive } from "./Responsive";
 import "./App.css";
-
 import { useFetch } from "./hooks/useFetch";
+import { motion } from "framer-motion";
 //Socket.io
-
 import { SocketContext } from "./context/socket";
 
 // Components
@@ -17,8 +16,6 @@ import Routes from "./Routes";
 import Loading from "./Loading";
 
 export default function App() {
-  console.log("rendering....");
-
   const [loading, setLoading] = useFetch(true);
   const socket = useContext(SocketContext);
 
@@ -51,10 +48,10 @@ export default function App() {
         >
           <Router>
             <Fragment>
-              <Grid item xs={12} sm={12} md={12}>
+              <Grid item xs={12} sm={12} md={12} sx={{ zIndex: "1" }}>
                 <Navbar />
               </Grid>
-              <Grid item md={1} lg={1} mt={2} p={2}>
+              <Grid item md={1} lg={1} mt={2} p={2} sx={{ zIndex: "1" }}>
                 <Menu title="menu" />
               </Grid>
               <Grid
@@ -83,7 +80,14 @@ export default function App() {
         >
           <Router>
             <Fragment>
-              <Grid item flexflow="row wrap" xs={12} sm={12} md={12}>
+              <Grid
+                item
+                flexflow="row wrap"
+                xs={12}
+                sm={12}
+                md={12}
+                sx={{ zIndex: "1" }}
+              >
                 <Navbar />
               </Grid>
               <Grid
@@ -96,7 +100,7 @@ export default function App() {
               >
                 <Routes />
               </Grid>
-              <Grid item md={2}>
+              <Grid item md={2} sx={{ zIndex: "1" }}>
                 <Menu title="mobile-menu" />
               </Grid>
             </Fragment>

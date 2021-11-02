@@ -17,12 +17,10 @@ router.get("/", (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  console.log(req.body);
+  const deviceType = req.body.option;
 
-  const dtype = req.body.option;
+  const retrievedDevice = await DeviceType.findOne({ type: deviceType });
 
-  const retrievedDevice = await DeviceType.findOne({ type: dtype });
-  console.log(retrievedDevice);
   const device = new Device({
     ...req.body,
     description: retrievedDevice._id,
@@ -35,14 +33,13 @@ router.post("/add", async (req, res) => {
 });
 
 // for device Type
-// router.post("/add", async (req, res) => {
-//   console.log(req.body);
+
+// router.post("/addDevice", async (req, res) => {
+//   console.log(req);
 
 //   const device = new DeviceType(req.body);
 
 //   await device.save();
-
-//   // await device.save();
 // });
 
 module.exports = router;

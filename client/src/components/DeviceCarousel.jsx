@@ -29,11 +29,19 @@ const DeviceCarousel = (props) => {
                 key={device.deviceID}
                 elevation={4}
                 className="device"
-                sx={{ borderRadius: "1.25rem" }}
+                sx={{
+                  display: "flex",
+                  borderRadius: "1.25rem",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
               >
-                <div
-                  dangerouslySetInnerHTML={{ __html: device.description.icon }}
-                ></div>
+                <img
+                  src={device.description.icon}
+                  alt="icon"
+                  height="60px"
+                  width="60px"
+                />
                 {device.name}
               </Paper>
             );

@@ -5,7 +5,6 @@ import dial from "../assets/dial.png";
 import CircularSlider from "@fseehawer/react-circular-slider";
 import { IoLocationOutline } from "react-icons/io5";
 import { TiPlus, TiMinus } from "react-icons/ti";
-
 import { CustomButton } from "./CustomButton";
 import Dropdown from "./Dropdown";
 
