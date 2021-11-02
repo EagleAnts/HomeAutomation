@@ -159,7 +159,7 @@ body {
   display: inline-block;
   border-radius: 1.2rem;
   color: white;
-  width: 200px;
+  width: 40%;
   padding: 10px;
   margin: 1%;
   text-align: center;
@@ -226,12 +226,11 @@ body {
 }
 
 .myDevices {
-  vertical-align: middle;
-  display: inline-block;
-  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: 100%;
-  overflow-x: scroll;
-  white-space: nowrap;
+  justify-content: space-around;
 }
 
 .myDevices * {

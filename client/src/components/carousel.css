@@ -27,21 +27,25 @@
   width: 100%;
   overflow-x: scroll;
   overflow-y: hidden;
-  white-space: nowrap;
   justify-content: flex-start;
 }
 .device {
   flex-shrink: 0;
   width: 200px;
   height: 100px;
-  font-size: 20px;
   margin: 1%;
   border-radius: 1.25rem;
+  word-wrap: break-word;
 }
 
-.device > * {
-  padding: 10px;
+.device > span {
+  font-size: 1vw;
+  margin: auto;
+  word-break: break-word;
 }
+/* .device > * {
+  padding: 10px;
+} */
 
 .device-container::-webkit-scrollbar {
   height: 5px;

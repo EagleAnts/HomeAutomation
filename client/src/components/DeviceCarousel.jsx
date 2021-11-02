@@ -1,7 +1,7 @@
 import React from "react";
 import "./carousel.css";
-import { IconButton } from "@mui/material";
-import { Paper, Box } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
+import { Paper, Box, Tooltip, Zoom } from "@mui/material";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 
 const DeviceCarousel = (props) => {
@@ -25,25 +25,31 @@ const DeviceCarousel = (props) => {
         <Box className="device-container">
           {props.devices.map((device) => {
             return (
-              <Paper
+              <Tooltip
                 key={device.deviceID}
-                elevation={4}
-                className="device"
-                sx={{
-                  display: "flex",
-                  borderRadius: "1.25rem",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                }}
+                title={<Typography fontSize="1rem">{device.name}</Typography>}
+                arrow
+                TransitionComponent={Zoom}
               >
-                <img
-                  src={device.description.icon}
-                  alt="icon"
-                  height="60px"
-                  width="60px"
-                />
-                {device.name}
-              </Paper>
+                <Paper
+                  elevation={4}
+                  className="device"
+                  sx={{
+                    display: "flex",
+                    borderRadius: "1.25rem",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={device.description.icon}
+                    alt="icon"
+                    height="60px"
+                    width="60px"
+                  />
+                </Paper>
+              </Tooltip>
             );
           })}
         </Box>

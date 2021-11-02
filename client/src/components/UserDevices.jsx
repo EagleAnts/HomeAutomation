@@ -15,7 +15,7 @@ const UserDevices = () => {
 
   const myDevices = useSelector((state) => state.GetUserDevices.myDevices);
 
-  const myDevicesList = myDevices.map((el) => {
+  const myDevicesList = myDevices.slice(0, 4).map((el) => {
     return (
       <Device
         key={el.deviceID}
