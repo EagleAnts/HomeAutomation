@@ -5,8 +5,9 @@ import { Paper, Box, Tooltip, Zoom } from "@mui/material";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 
 const DeviceCarousel = (props) => {
-  const scrollContainer = (direction) => {
-    const el = document.querySelector(".device-container");
+  const scrollContainer = (direction, event) => {
+    const el =
+      direction < 0 ? event.target.nextSibling : event.target.previousSibling;
     const far = (el.clientWidth / 2) * direction;
     el.scrollBy({ left: far, behavior: "smooth" });
   };
@@ -16,9 +17,10 @@ const DeviceCarousel = (props) => {
       <h2>{props.area}</h2>
       <div className="wrapper">
         <IconButton
+          id="prev"
           aria-label="prev"
           sx={{ color: "#7b40f2" }}
-          onClick={scrollContainer.bind(null, -1)}
+          onClick={scrollContainer.bind(this, -1)}
         >
           <AiOutlineLeft />
         </IconButton>
@@ -55,9 +57,10 @@ const DeviceCarousel = (props) => {
         </Box>
 
         <IconButton
+          id="next"
           aria-label="next"
           sx={{ color: "#7b40f2" }}
-          onClick={scrollContainer.bind(null, 1)}
+          onClick={scrollContainer.bind(this, 1)}
         >
           <AiOutlineRight />
         </IconButton>

@@ -37,76 +37,71 @@ export default function App() {
   return loading ? (
     <Loading />
   ) : (
-    <div className="App">
+    <>
       <Responsive displayIn={["LargerThanLaptop"]}>
-        <Grid
-          container
-          sx={{ height: "inherit", width: "inherit" }}
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          m={1}
-        >
-          <Router>
-            <Fragment>
-              <Grid item xs={12} sm={12} md={12} sx={{ zIndex: "1" }}>
-                <Navbar />
-              </Grid>
-              <Grid item md={1} lg={1} mt={2} p={2} sx={{ zIndex: "1" }}>
-                <Menu title="menu" />
-              </Grid>
-              <Grid
-                item
-                md={11}
-                lg={11}
-                mt={2}
-                container
-                spacing={3}
-                alignItems="flex-start"
-              >
-                <Routes />
-              </Grid>
-            </Fragment>
-          </Router>
-        </Grid>
+        <div className="App">
+          <Grid
+            container
+            sx={{ height: "inherit", width: "inherit" }}
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
+            <Router>
+              <Fragment>
+                <Grid item xs={12} sm={12} md={12}>
+                  <Navbar />
+                </Grid>
+                <Grid item md={1} lg={1} mt={2} p={2} sx={{ zIndex: "100" }}>
+                  <Menu title="menu" />
+                </Grid>
+                <Grid
+                  item
+                  md={11}
+                  lg={11}
+                  mt={2}
+                  container
+                  spacing={3}
+                  alignItems="flex-start"
+                >
+                  <Routes />
+                </Grid>
+              </Fragment>
+            </Router>
+          </Grid>
+        </div>
       </Responsive>
 
       <Responsive displayIn={["Laptop", "Mobile", "Tablet"]}>
-        <Grid
-          container
-          sx={{ height: "inherit", width: "inherit" }}
-          justifyContent="center"
-          spacing="2"
-          m={2}
-        >
-          <Router>
-            <Fragment>
-              <Grid
-                item
-                flexflow="row wrap"
-                xs={12}
-                sm={12}
-                md={12}
-                sx={{ zIndex: "1" }}
-              >
-                <Navbar />
-              </Grid>
-              <Grid
-                item
-                md={12}
-                container
-                spacing={2}
-                justifyContent="center"
-                mt={1}
-              >
-                <Routes />
-              </Grid>
-              <Grid item md={2} sx={{ zIndex: "1" }}>
-                <Menu title="mobile-menu" />
-              </Grid>
-            </Fragment>
-          </Router>
-        </Grid>
+        <div className="MobileApp">
+          <Grid
+            container
+            sx={{ height: "inherit", width: "inherit" }}
+            justifyContent="center"
+            spacing="2"
+          >
+            <Router>
+              <Fragment>
+                <Grid item flexflow="row wrap" xs={12} sm={12} md={12}>
+                  <Navbar />
+                </Grid>
+                <Grid
+                  item
+                  md={12}
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  mt={1}
+                >
+                  <Routes />
+                </Grid>
+                <Grid item md={2} sx={{ zIndex: "100" }}>
+                  <Menu title="mobile-menu" />
+                </Grid>
+              </Fragment>
+            </Router>
+          </Grid>
+        </div>
       </Responsive>
-    </div>
+    </>
   );
 }

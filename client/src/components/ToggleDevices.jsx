@@ -1,41 +1,84 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedDevice } from "../redux/actions/action";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
-import { useSelector } from "react-redux";
+import { Box, styled } from "@mui/material";
 
-const buildToggleDevices = (dispatch, devicesList) => {
-  const handleOnChange = (e) => {
-    dispatch(selectedDevice(e.target.id));
+const buildToggleDevices = (dispatch, devicesList, selectedRoom) => {
+  const handleOnChange = (deviceID) => {
+    dispatch(selectedDevice(deviceID));
   };
-  return devicesList.map((el) => {
-    return (
-      <div key={el.name + "-" + el.area}>
-        <input
-          type="radio"
-          name="buttonGroup"
-          id={el.name + "-" + el.area}
-          onChange={handleOnChange.bind(this)}
-        />
-        <label htmlFor={el.name + "-" + el.area}>
-          <CgSmartHomeRefrigerator fontSize="50px" />
-          {el.name}
-        </label>
-      </div>
-    );
-  });
+  return devicesList
+    .filter((el) => el.area === selectedRoom)
+    .map((el) => {
+      return (
+        <div key={el.name + "-" + el.area}>
+          <input
+            type="radio"
+            name="buttonGroup"
+            id={el.name + "-" + el.area}
+            onChange={() => handleOnChange(el.deviceID)}
+          />
+          <label htmlFor={el.name + "-" + el.area}>
+            <CgSmartHomeRefrigerator fontSize="50px" />
+            {el.name}
+          </label>
+        </div>
+      );
+    });
 };
+
+const StyledDiv = styled("div")({
+  margin: "2rem",
+  padding: "1rem",
+  textAlign: "center",
+  opacity: 0.5,
+  pointerEvents: "none",
+});
 
 const ToggleDevices = () => {
   const dispatch = useDispatch();
 
+  const selectedRoom = useSelector((state) => state.ToggleDevices.selectedRoom);
+
   const currentRoomDevices = useSelector(
-    (state) => state.GetUserDevices.myDevices
+    (state) => state.UserDevices.myDevices
   );
 
-  const toggleDevicesList = buildToggleDevices(dispatch, currentRoomDevices);
+  const toggleDevicesList = buildToggleDevices(
+    dispatch,
+    currentRoomDevices,
+    selectedRoom
+  );
 
-  return <>{toggleDevicesList}</>;
+  return (
+    <>
+      {!selectedRoom ? (
+        <StyledDiv>
+          Area Not Selected ! <br />
+          Please Choose any Area to Show Devices
+        </StyledDiv>
+      ) : (
+        <Box
+          className="devices"
+          sx={{
+            display: "grid",
+            gridAutoFlow: "column",
+            overflowX: "scroll",
+            columnGap: "2%",
+          }}
+          justifySelf="center"
+          justifyContent="flex-start"
+          borderRadius="1.5rem"
+          margin="2%"
+          padding="2%"
+          alignItems="center"
+        >
+          {toggleDevicesList}
+        </Box>
+      )}
+    </>
+  );
 };
 
 export default ToggleDevices;

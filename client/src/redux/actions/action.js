@@ -15,7 +15,22 @@ export const selectedDevice = (id) => ({
   payload: id,
 });
 
+export const loadUserDevices = (id) => ({
+  type: actions.LOAD_USER_DEVICES,
+  payload: id,
+});
+
 export const changeStatus = (status) => ({
   type: actions.CHANGE_DEVICE_STATUS,
   payload: status,
+});
+
+export const roomSelected = (room) => ({
+  type: actions.SELECTED_ROOM,
+  payload: room,
+});
+
+export const changeDeviceValue = (data) => ({
+  type: actions.CHANGE_DEVICE_VALUE,
+  payload: data,
 });

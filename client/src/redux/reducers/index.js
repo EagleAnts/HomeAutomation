@@ -1,10 +1,9 @@
 import { combineReducers } from "redux";
-import GetUserDevices from "./GetDevicesReducer";
-import SelectedDevice from "./ActiveDevice";
-import DeviceStatusReducer from "./DeviceStatusReducer";
+
+import ToggleDevices from "./ToggleDevicesReducer";
+import UserDevices from "./UserDevicesReducer";
 
 export default combineReducers({
-  GetUserDevices,
-  SelectedDevice,
-  DeviceStatusReducer,
+  ToggleDevices,
+  UserDevices,
 });

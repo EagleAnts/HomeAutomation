@@ -1,36 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
+import React from "react";
+
 import "./dropdown.css";
 
 const Dropdown = (props) => {
-  const dropDownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
-  const [haveText, sethaveText] = useState(`Select ${props.description}`);
-
-  const handleClick = () => {
-    setIsActive(!isActive);
-  };
-
-  const handleText = (ev) => {
-    sethaveText(ev.currentTarget.textContent);
-  };
-
-  useEffect(() => {
-    if (props.id === "deviceDropdown") {
-      haveText === "OFF"
-        ? document
-            .querySelector("#status-indicator")
-            .setAttribute("disabled", "")
-        : document
-            .querySelector("#status-indicator")
-            .removeAttribute("disabled", "");
-    }
-  }, [haveText, props.id]);
-
   const itemList = (options) => {
     const list = options.map((item) => (
       <div
-        onClick={handleText}
+        onClick={props.handleText}
         className="dropdown__item"
         key={item.toString()}
       >
@@ -43,12 +19,12 @@ const Dropdown = (props) => {
 
   return (
     <div
-      ref={dropDownRef}
+      ref={props.dropDownRef}
       id={props.id}
-      className={isActive ? "dropdown active " : "dropdown "}
-      onClick={handleClick}
+      className={props.isActive ? "dropdown active " : "dropdown "}
+      onClick={props.onClick}
     >
-      <div className="dropdown__text">{haveText}</div>
+      <div className="dropdown__text">{props.haveText}</div>
       {itemList(props.options)}
     </div>
   );

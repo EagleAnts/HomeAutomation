@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
+import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import {
@@ -25,30 +27,57 @@ import Dropdown from "./Dropdown";
 import UserDevices from "./UserDevices";
 import ToggleDevices from "./ToggleDevices";
 
+import { roomSelected } from "../redux/actions/action";
+
 const gridAnimations = {
   in: { opacity: 1 },
   out: { opacity: 0 },
 };
 
+const AreaDropdown = (props) => {
+  const dispatch = useDispatch();
+
+  const dropDownRef = useRef(null);
+
+  const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
+  const [haveText, sethaveText] = useState("Select Area");
+
+  const handleClick = (e) => {
+    setIsActive(!isActive);
+  };
+
+  const handleText = (ev) => {
+    sethaveText(ev.currentTarget.textContent);
+    dispatch(roomSelected(ev.currentTarget.textContent));
+  };
+
+  const options = [];
+
+  props.devices.forEach((el) => {
+    if (!options.includes(el.area)) options.push(el.area);
+  });
+
+  return (
+    <Dropdown
+      id="areaDropdown"
+      options={options}
+      handleText={handleText}
+      dropDownRef={dropDownRef}
+      onClick={handleClick}
+      isActive={isActive}
+      haveText={haveText}
+    />
+  );
+};
+
 export const Dashboard = (props) => {
   console.log("Rendering Dashboard...");
 
+  const devices = useSelector((state) => state.UserDevices.myDevices);
+
   const temperature = 40;
-  const options = [
-    "Living Room",
-    "Dining Room",
-    "Bedroom",
-    "Hall",
-    "Kitchen",
-    "Bathroom",
-  ];
 
   const history = useHistory();
-
-  const handleClick = (e) => {
-    const id = e.target.id;
-    props.showDropdown({ id });
-  };
 
   const goToDevices = () => {
     history.push("/devices");
@@ -111,33 +140,13 @@ export const Dashboard = (props) => {
             flexDirection: "column",
             margin: "2%",
             height: "250px",
+            justifyContent: "flex-start",
           }}
         >
           <div style={{ alignSelf: "flex-end" }}>
-            <Dropdown
-              id="areaDropdown"
-              options={options}
-              description="Rooms"
-              onClick={handleClick.bind(this)}
-              isOpen={props.areaDropdown}
-            />
+            <AreaDropdown devices={devices} />
           </div>
-          <Box
-            className="devices"
-            sx={{
-              display: "grid",
-              gridAutoFlow: "column",
-              overflowX: "scroll",
-              columnGap: "2%",
-            }}
-            justifySelf="center"
-            justifyContent="flex-start"
-            borderRadius="1.5rem"
-            margin="2%"
-            padding="2%"
-          >
-            <ToggleDevices />
-          </Box>
+          <ToggleDevices />
         </Box>
 
         <Grid item sm={12} xs={12} md={12}>

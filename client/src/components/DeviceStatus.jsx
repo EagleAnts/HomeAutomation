@@ -1,103 +1,148 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Card } from "@mui/material";
-import dial from "../assets/dial.png";
-import CircularSlider from "@fseehawer/react-circular-slider";
-import { IoLocationOutline } from "react-icons/io5";
-import { TiPlus, TiMinus } from "react-icons/ti";
-import { CustomButton } from "./CustomButton";
+import React, { useEffect, useRef, useState } from "react";
+import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
+import { useSelector, useDispatch } from "react-redux";
+import { Box, Card, CircularProgress } from "@mui/material";
+import { styled } from "@mui/system";
+import { changeStatus } from "../redux/actions/action";
+
 import Dropdown from "./Dropdown";
+import { CircularProgressComponent } from "./CircularProgress";
 
-const dataArray = [];
-for (let i = 0; i <= 100; i += 5) dataArray.push(`${i}`);
+const StyledDiv = styled("div")({
+  margin: "2rem",
+  padding: "1rem",
+  textAlign: "center",
+  opacity: 0.5,
+  pointerEvents: "none",
+});
 
-const DeviceStatus = (props) => {
+const StatusDropdown = (props) => {
+  const dispatch = useDispatch();
+  const dropDownRef = useRef(null);
+
+  const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
+  const [haveText, sethaveText] = useState("Select Status");
+
+  const [deviceStatus] = useSelector((state) =>
+    state.UserDevices.DeviceStatus.filter((el) => el.id === props.deviceID).map(
+      (el) => el.active
+    )
+  );
+
+  useEffect(() => {
+    if (deviceStatus) {
+      document.getElementById("status-indicator").classList.remove("deviceOff");
+      sethaveText("ON");
+    } else if (deviceStatus !== undefined && !deviceStatus) {
+      document.getElementById("status-indicator").classList.add("deviceOff");
+      sethaveText("OFF");
+    }
+  }, [deviceStatus]);
+
+  const handleClick = () => {
+    setIsActive(!isActive);
+  };
+
+  const handleText = (ev) => {
+    const text = ev.currentTarget.textContent;
+    if (text === "ON")
+      dispatch(changeStatus({ id: props.deviceID, active: true }));
+    else if (text === "OFF")
+      dispatch(changeStatus({ id: props.deviceID, active: false }));
+    sethaveText(text);
+  };
+
   const options = ["ON", "OFF"];
 
-  React.useEffect(() => {
-    if (props.activeDevice !== " ")
-      document.querySelector("#status-indicator").style.visibility = "visible";
-  }, [props.activeDevice]);
+  return (
+    <Dropdown
+      id="statusDropdown"
+      options={options}
+      description="Status"
+      handleText={handleText}
+      dropDownRef={dropDownRef}
+      onClick={handleClick}
+      isActive={isActive}
+      haveText={haveText}
+    />
+  );
+};
+
+const DeviceStatus = (props) => {
+  const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
+
+  const [isLoading, setLoading] = useState(null);
+
+  function fakeTimeOut() {
+    return new Promise((resolve) => setTimeout(() => resolve(), 1000));
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    fakeTimeOut().then(() => {
+      console.log("fakeTimeout");
+      setLoading(false);
+    });
+  }, [activeDevice]);
 
   return (
     <>
-      <Card
-        className="selectDisable"
-        elevation={3}
-        sx={{
-          display: "flex",
-          position: "relative",
-          flexFlow: "column wrap",
-          alignItems: "center",
-          p: 2,
-          borderRadius: "1.25rem",
-          bgcolor: "white",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+      {isLoading ? (
+        <Box
+          sx={{
+            height: "18.25rem",
             width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          Currently Selected Device is : {props.activeDevice}
-          <Dropdown
-            id="deviceDropdown"
-            options={options}
-            description="Status"
-          />
-        </div>
-
-        <div id="status-indicator" style={{ visibility: "hidden" }}>
-          <CustomButton>
-            <TiMinus />
-          </CustomButton>
-
-          <div id="Slider">
-            <CircularSlider
-              label="Temperature"
-              width={250}
-              min={0}
-              max={100}
-              data={dataArray}
-              knobSize={50}
-              knobColor="transparent"
-              progressLineCap="round"
-              appendToValue="℃"
-              labelFontSize="1.2rem"
-              valueFontSize="1.5rem"
-              progressColorFrom="#8F63DF"
-              progressColorTo="#EB9471"
-            >
-              <IoLocationOutline id="Slider-icon" fontSize="45px" />
-            </CircularSlider>
-          </div>
-
-          <img
-            src={dial}
-            alt="jpg"
-            style={{
-              m: 2,
-              maxWidth: "420px",
-              maxHeight: "300px",
+          <CircularProgress sx={{ color: "#7b40f2" }} />
+        </Box>
+      ) : !activeDevice ? (
+        <StyledDiv>
+          No Device Selected! <br />
+          Please Choose any Device to Show it's Status
+        </StyledDiv>
+      ) : (
+        <>
+          <Card
+            key={activeDevice}
+            className="selectDisable"
+            elevation={3}
+            sx={{
+              display: "flex",
+              position: "relative",
+              flexFlow: "column wrap",
+              alignItems: "center",
+              p: 2,
+              borderRadius: "1.25rem",
+              bgcolor: "white",
             }}
-          />
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              Currently Selected Device is : {activeDevice}
+              <StatusDropdown deviceID={activeDevice} />
+            </div>
 
-          <div id="circle">
-            <div id="small-circle"></div>
-          </div>
-          <CustomButton>
-            <TiPlus />
-          </CustomButton>
-        </div>
-      </Card>
+            <div id="status-indicator" className="deviceOff">
+              <CircularProgressComponent
+                incrementBy={5}
+                deviceID={activeDevice}
+              />
+            </div>
+          </Card>
+        </>
+      )}
     </>
   );
 };
 
-const mapStateToProps = (state) => ({
-  activeDevice: state.SelectedDevice.activeDevice,
-});
-export default connect(mapStateToProps)(DeviceStatus);
+export default DeviceStatus;

@@ -24,7 +24,7 @@ const BuildCarousel = (props) => {
 };
 
 export const AllDevices = () => {
-  const devices = useSelector((state) => state.GetUserDevices.myDevices);
+  const devices = useSelector((state) => state.UserDevices.myDevices);
 
   const area = {};
 

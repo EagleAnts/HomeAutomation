@@ -71,7 +71,7 @@ body {
 .menu {
   /* align-items: center; */
   display: block;
-  height: 75vh;
+  height: 57rem;
   width: 4rem;
   border-radius: 0.5rem;
   background-color: #7b40f2;
@@ -175,7 +175,7 @@ body {
   word-wrap: break-word;
 }
 
-#status {
+#device-status {
   display: inline-block;
   width: 40px;
   margin-right: 20%;
@@ -383,4 +383,9 @@ input[type="radio"][name="buttonGroup"]:checked + label {
   -moz-user-select: text;
   -o-user-select: text;
   user-select: text;
+}
+
+.deviceOff {
+  opacity: 0.2;
+  pointer-events: none;
 }

@@ -1,4 +1,6 @@
 .dropdown {
+  font-size: 1rem;
+  z-index: 10;
   position: relative;
   width: 160px;
   border: 1px solid inherit;
@@ -6,6 +8,8 @@
   border-radius: 1.25rem;
   animation: border-radius 0.2s ease;
   cursor: pointer;
+  text-transform: capitalize;
+  word-break: break-all;
 }
 
 .dropdown.active {
@@ -61,7 +65,7 @@
   visibility: visible;
   border-top: 0.1px solid rgba(0, 0, 0, 0.3);
   height: auto;
-  max-height: 120px;
+  max-height: 150px;
   opacity: 1;
   transition: max-height 0.3s ease;
 }
