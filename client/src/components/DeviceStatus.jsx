@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Box, Card, CircularProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import { changeStatus } from "../redux/actions/action";
+import { motion } from "framer-motion";
 
 import Dropdown from "./Dropdown";
 import { CircularProgressComponent } from "./CircularProgress";
@@ -71,35 +72,36 @@ const StatusDropdown = (props) => {
 const DeviceStatus = (props) => {
   const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 
-  const [isLoading, setLoading] = useState(null);
+  // const [isLoading, setLoading] = useState(null);
 
-  function fakeTimeOut() {
-    return new Promise((resolve) => setTimeout(() => resolve(), 1000));
-  }
+  // function fakeTimeOut() {
+  //   return new Promise((resolve) => setTimeout(() => resolve(), 1000));
+  // }
 
-  useEffect(() => {
-    setLoading(true);
-    fakeTimeOut().then(() => {
-      console.log("fakeTimeout");
-      setLoading(false);
-    });
-  }, [activeDevice]);
+  // useEffect(() => {
+  //   setLoading(true);
+  //   fakeTimeOut().then(() => {
+  //     setLoading(false);
+  //   });
+  // }, [activeDevice]);
+
+  // isLoading ? (
+  //   <Box
+  //     sx={{
+  //       height: "18.25rem",
+  //       width: "100%",
+  //       display: "flex",
+  //       alignItems: "center",
+  //       justifyContent: "center",
+  //     }}
+  //   >
+  //     <CircularProgress sx={{ color: "#7b40f2" }} />
+  //   </Box>
+  // ) :
 
   return (
     <>
-      {isLoading ? (
-        <Box
-          sx={{
-            height: "18.25rem",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <CircularProgress sx={{ color: "#7b40f2" }} />
-        </Box>
-      ) : !activeDevice ? (
+      {!activeDevice ? (
         <StyledDiv>
           No Device Selected! <br />
           Please Choose any Device to Show it's Status
@@ -107,6 +109,10 @@ const DeviceStatus = (props) => {
       ) : (
         <>
           <Card
+            component={motion.div}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ type: "spring", stiffness: 80 }}
             key={activeDevice}
             className="selectDisable"
             elevation={3}

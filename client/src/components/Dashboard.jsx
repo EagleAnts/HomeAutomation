@@ -98,6 +98,7 @@ export const Dashboard = (props) => {
         exit="out"
       >
         <Paper
+          component={motion.div}
           className="greetings"
           elevation={3}
           sx={{
@@ -105,6 +106,7 @@ export const Dashboard = (props) => {
             bgcolor: "white",
             borderRadius: "1.5rem",
           }}
+          whileTap={{ scale: 0.9 }}
         >
           <Typography
             variant="h5"
@@ -149,7 +151,16 @@ export const Dashboard = (props) => {
           <ToggleDevices />
         </Box>
 
-        <Grid item sm={12} xs={12} md={12}>
+        <Grid
+          item
+          sm={12}
+          xs={12}
+          md={12}
+          component={motion.div}
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          transition={{ delay: "1s", type: "spring", stiffness: 30 }}
+        >
           <DeviceInfo />
         </Grid>
       </Grid>

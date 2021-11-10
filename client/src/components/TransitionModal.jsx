@@ -5,8 +5,10 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { BsFillPatchPlusFill } from "react-icons/bs";
 // import { Popper } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -162,9 +164,21 @@ export default function TransitionsModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen} sx={{ color: "#7b40f2" }}>
-        Add a Device
+      <Button
+        onClick={handleOpen}
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          color: "#7b40f2",
+          marginLeft: "auto",
+        }}
+      >
+        <Typography mr={2} fontSize="1.25rem">
+          Add a Device
+        </Typography>
+        <BsFillPatchPlusFill fontSize="2rem" />
       </Button>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

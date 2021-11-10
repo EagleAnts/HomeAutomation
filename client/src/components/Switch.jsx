@@ -7,6 +7,6 @@ export const AmberSwitch = styled(Switch)(({ theme }) => ({
     color: amber[700],
   },
   "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: "white",
+    backgroundColor: "slategrey",
   },
 }));

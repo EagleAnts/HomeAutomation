@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 import "./dropdown.css";
 
@@ -18,7 +19,8 @@ const Dropdown = (props) => {
   };
 
   return (
-    <div
+    <motion.div
+      whileTap={{ scale: 0.9 }}
       ref={props.dropDownRef}
       id={props.id}
       className={props.isActive ? "dropdown active " : "dropdown "}
@@ -26,7 +28,7 @@ const Dropdown = (props) => {
     >
       <div className="dropdown__text">{props.haveText}</div>
       {itemList(props.options)}
-    </div>
+    </motion.div>
   );
 };
 

@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 const CustomCircularProgress = styled(CircularProgress)(() => ({
   "& .MuiCircularProgress-circleDeterminate": {
     strokeLinecap: "round",
+    transition: "stroke-dashoffset 500ms cubic-bezier(0,.12,.48,1)",
   },
 }));
 
@@ -19,11 +20,18 @@ export const CircularProgressComponent = (props) => {
   const dispatch = useDispatch();
 
   const [value, setValue] = useState(0);
-  const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 
-  return !activeDevice ? (
-    <></>
-  ) : (
+  const [deviceValue] = useSelector((state) =>
+    state.UserDevices.DeviceStatus.filter((el) => el.id === props.deviceID).map(
+      (el) => el.value || 0
+    )
+  );
+
+  React.useEffect(() => {
+    setValue(deviceValue);
+  }, []);
+
+  return (
     <>
       <CustomButton
         onClick={() => {
@@ -70,6 +78,7 @@ export const CircularProgressComponent = (props) => {
             <Typography fontSize="1.5rem"> Temperature </Typography>
             <Typography fontSize="2rem">{value}℃</Typography>
           </Box>
+
           <CustomCircularProgress
             variant="determinate"
             value={100}
@@ -80,6 +89,7 @@ export const CircularProgressComponent = (props) => {
             }}
           />
         </Box>
+
         <CustomCircularProgress
           variant="determinate"
           value={value}

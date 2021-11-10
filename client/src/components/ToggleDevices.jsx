@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectedDevice } from "../redux/actions/action";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { Box, styled } from "@mui/material";
+import { motion } from "framer-motion";
 
 const buildToggleDevices = (dispatch, devicesList, selectedRoom) => {
   const handleOnChange = (deviceID) => {
@@ -12,7 +13,11 @@ const buildToggleDevices = (dispatch, devicesList, selectedRoom) => {
     .filter((el) => el.area === selectedRoom)
     .map((el) => {
       return (
-        <div key={el.name + "-" + el.area}>
+        <motion.div
+          key={el.name + "-" + el.area}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
           <input
             type="radio"
             name="buttonGroup"
@@ -23,7 +28,7 @@ const buildToggleDevices = (dispatch, devicesList, selectedRoom) => {
             <CgSmartHomeRefrigerator fontSize="50px" />
             {el.name}
           </label>
-        </div>
+        </motion.div>
       );
     });
 };
