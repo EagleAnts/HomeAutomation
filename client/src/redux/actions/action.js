@@ -34,3 +34,8 @@ export const changeDeviceValue = (data) => ({
   type: actions.CHANGE_DEVICE_VALUE,
   payload: data,
 });
+
+export const showDeviceDetails = (deviceID) => ({
+  type: actions.SHOW_DEVICE_DETAILS,
+  payload: deviceID,
+});

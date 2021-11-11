@@ -1,14 +1,63 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-import Modal from "./TransitionModal";
+import AddDeviceModal from "./TransitionModal";
 import Carousel from "./DeviceCarousel";
 import { motion } from "framer-motion";
-
-import { useSelector } from "react-redux";
+import { Box, Typography, Backdrop, Modal, Fade } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { showDeviceDetails } from "../redux/actions/action";
 
 const gridAnimations = {
   in: { opacity: 1 },
   out: { opacity: 0 },
+};
+
+const style = {
+  height: "400px",
+  overflowY: "hidden",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "1px solid #ccc",
+  boxShadow: 24,
+  borderRadius: "1.25rem",
+  p: 4,
+  outline: "none",
+};
+
+const DetailsModal = (props) => {
+  const dispatch = useDispatch();
+
+  const handleClose = () => {
+    dispatch(showDeviceDetails(""));
+  };
+  const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
+  const [device] = props.devices.filter((el) => el.deviceID === deviceID);
+
+  return (
+    <Modal
+      aria-labelledby="Device-Details"
+      aria-describedby="Device-Modal"
+      open={deviceID ? true : false}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={deviceID ? true : false}>
+        <Box sx={style}>
+          <Typography variant="h6" component="h2">
+            {!device ? "" : device.name}
+          </Typography>
+        </Box>
+      </Fade>
+    </Modal>
+  );
 };
 
 const BuildCarousel = (props) => {
@@ -47,8 +96,9 @@ export const AllDevices = () => {
         animate="in"
         exit="out"
       >
-        <Modal />
+        <AddDeviceModal />
         <BuildCarousel area={area} />
+        <DetailsModal devices={devices} />
       </Grid>
     </>
   );

@@ -1,54 +1,18 @@
 import React from "react";
 import "./carousel.css";
-import { IconButton, Typography, Backdrop, Modal, Fade } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { Paper, Box, Tooltip, Zoom } from "@mui/material";
 import { AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { motion } from "framer-motion";
-
-const style = {
-  height: "400px",
-  overflowY: "hidden",
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "1px solid #ccc",
-  boxShadow: 24,
-  borderRadius: "1.25rem",
-  p: 4,
-  outline: "none",
-};
-
-const DetailsModal = (props) => {
-  return (
-    <Modal
-      aria-labelledby="Device-Details"
-      aria-describedby="Device-Modal"
-      open={props.open}
-      onClose={props.handleClose}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-    >
-      <Fade in={props.open}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            Hello
-          </Typography>
-        </Box>
-      </Fade>
-    </Modal>
-  );
-};
+import { useDispatch } from "react-redux";
+import { showDeviceDetails } from "../redux/actions/action";
 
 const DeviceCarousel = (props) => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const dispatch = useDispatch();
+
+  const handleOpen = (deviceID) => {
+    dispatch(showDeviceDetails(deviceID));
+  };
 
   const scrollContainer = (direction, event) => {
     const el =
@@ -70,41 +34,38 @@ const DeviceCarousel = (props) => {
           <AiOutlineLeft />
         </IconButton>
         <Box className="device-container">
-          <DetailsModal handleClose={handleClose} open={open} />
           {props.devices.map((device) => {
             return (
-              <>
-                <Tooltip
-                  key={device.deviceID}
-                  title={<Typography fontSize="1rem">{device.name}</Typography>}
-                  arrow
-                  TransitionComponent={Zoom}
+              <Tooltip
+                key={device.deviceID}
+                title={<Typography fontSize="1rem">{device.name}</Typography>}
+                arrow
+                TransitionComponent={Zoom}
+              >
+                <Paper
+                  onClick={() => handleOpen(device.deviceID)}
+                  component={motion.div}
+                  whileTap={{ scale: 0.9 }}
+                  elevation={4}
+                  className="device selectDisable"
+                  sx={{
+                    display: "flex",
+                    borderRadius: "1.25rem",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    cursor: "pointer",
+                  }}
                 >
-                  <Paper
-                    onClick={handleOpen}
-                    component={motion.div}
-                    whileTap={{ scale: 0.9 }}
-                    elevation={4}
-                    className="device selectDisable"
-                    sx={{
-                      display: "flex",
-                      borderRadius: "1.25rem",
-                      flexDirection: "column",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <img
-                      loading="lazy"
-                      src={device.description.icon}
-                      alt="icon"
-                      height="60px"
-                      width="60px"
-                    />
-                  </Paper>
-                </Tooltip>
-              </>
+                  <img
+                    loading="lazy"
+                    src={device.description.icon}
+                    alt="icon"
+                    height="60px"
+                    width="60px"
+                  />
+                </Paper>
+              </Tooltip>
             );
           })}
         </Box>
