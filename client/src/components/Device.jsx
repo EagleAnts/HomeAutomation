@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { SocketContext } from "../context/socket";
 
 import { changeStatus } from "../redux/actions/action";
@@ -12,29 +12,22 @@ import { AmberSwitch } from "./Switch";
 const DeviceStatus = (props) => {
   const dispatch = useDispatch();
 
-  const [isActive, setActive] = React.useState(false);
-
-  const [deviceActive] = useSelector((state) =>
-    state.UserDevices.DeviceStatus.filter((el) => el.id === props.id).map(
-      (el) => el.active
-    )
+  const { active: deviceStatus } = useSelector((state) =>
+    state.UserDevices.DeviceStatus.find((el) => el.id === props.id)
   );
 
   const currentSocket = useContext(SocketContext);
+
   const onClickHandler = (deviceID) => {
-    dispatch(changeStatus({ id: deviceID, active: !isActive }));
-    setActive(!isActive);
-    currentSocket.emit("device_event", { id: deviceID, active: !isActive });
+    dispatch(changeStatus({ id: deviceID, active: !deviceStatus }));
+    currentSocket.emit("device_event", { id: deviceID, active: !deviceStatus });
   };
 
-  useEffect(() => {
-    setActive(deviceActive);
-  }, [deviceActive]);
   return (
     <>
-      <p id="device-status">{isActive ? "ON" : "OFF"}</p>
+      <p id="device-status">{deviceStatus ? "ON" : "OFF"}</p>
       <AmberSwitch
-        checked={isActive || false}
+        checked={deviceStatus || false}
         onChange={() => onClickHandler(props.id)}
       />
     </>

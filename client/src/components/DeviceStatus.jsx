@@ -5,6 +5,7 @@ import { Box, Card, CircularProgress } from "@mui/material";
 import { styled } from "@mui/system";
 import { changeStatus } from "../redux/actions/action";
 import { motion } from "framer-motion";
+import { deviceStatusList } from "../optionsList/devicesList";
 
 import Dropdown from "./Dropdown";
 import { CircularProgressComponent } from "./CircularProgress";
@@ -69,8 +70,21 @@ const StatusDropdown = (props) => {
   );
 };
 
-const DeviceStatus = (props) => {
+const DeviceStatus = () => {
+  const myDevices = useSelector((state) => state.UserDevices.myDevices);
   const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
+
+  const [deviceDetails] = myDevices
+    .filter((el) => el.deviceID === activeDevice)
+    .map((el) => {
+      const deviceType = el.description.type;
+      return {
+        status: deviceStatusList[deviceType].status,
+        icon: deviceStatusList[deviceType].icon,
+        label: deviceStatusList[deviceType].label || " ",
+        incrementBy: deviceStatusList[deviceType].incrementBy || " ",
+      };
+    });
 
   // const [isLoading, setLoading] = useState(null);
 
@@ -134,15 +148,30 @@ const DeviceStatus = (props) => {
                 width: "100%",
               }}
             >
+              <img
+                src="https://res.cloudinary.com/homeautomation/image/upload/v1636729490/weather-assests/2_whgnmv.png"
+                alt="weather-icon"
+                height="80px"
+                width="80px"
+                style={{ verticalAlign: "middle", marginRight: 8 }}
+              />
               Currently Selected Device is : {activeDevice}
               <StatusDropdown deviceID={activeDevice} />
             </div>
-
             <div id="status-indicator" className="deviceOff">
-              <CircularProgressComponent
-                incrementBy={5}
-                deviceID={activeDevice}
-              />
+              {!deviceDetails.status ? (
+                <img
+                  src={deviceDetails.icon}
+                  alt="device_png"
+                  style={{ height: "inherit" }}
+                />
+              ) : (
+                <CircularProgressComponent
+                  incrementBy={deviceDetails.incrementBy}
+                  label={deviceDetails.label}
+                  deviceID={activeDevice}
+                />
+              )}
             </div>
           </Card>
         </>

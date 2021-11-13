@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 
 import { BsSearch } from "react-icons/bs";
 import { BsGearFill } from "react-icons/bs";
@@ -10,47 +10,47 @@ import { IoNotificationsOutline } from "react-icons/io5";
 export const Navbar = () => {
   const iconsStyle = {
     cursor: "pointer",
-    fontSize: "1.5rem",
+    fontSize: "2rem",
     padding: "0 10px 0 10px",
   };
 
   return (
     <div className="Navbar">
-      <Grid
-        container
+      <Stack
         direction="row"
-        justifyContent="center"
         alignItems="center"
+        justifyContent="space-between"
+        xs={6}
+        sm={5}
+        md={5}
       >
-        <Grid item xs={6} sm={5} md={5}>
-          <div className="searchWrapper">
-            <div className="searchBar">
-              <input id="searchQueryInput" type="text" placeholder="Search" />
-              <button
-                id="searchQuerySubmit"
-                type="submit"
-                name="searchQuerySubmit"
-              >
-                <BsSearch color="purple" />
-              </button>
-            </div>
+        <div className="searchWrapper">
+          <div className="searchBar">
+            <input id="searchQueryInput" type="text" placeholder="Search" />
+            <button
+              id="searchQuerySubmit"
+              type="submit"
+              name="searchQuerySubmit"
+            >
+              <BsSearch color="purple" fontSize="1.2rem" />
+            </button>
           </div>
-        </Grid>
-
-        <Grid
-          container
-          item
+        </div>
+        <Stack
+          m="0 2rem"
           xs={6}
           sm={7}
           md={5}
+          spacing={3}
+          direction="row"
           justifyContent="flex-end"
           alignItems="center"
         >
           <BsGearFill style={iconsStyle} />
           <IoNotificationsOutline style={iconsStyle} />
           <RiAccountCircleFill style={iconsStyle} />
-        </Grid>
-      </Grid>
+        </Stack>
+      </Stack>
     </div>
   );
 };

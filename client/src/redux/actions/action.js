@@ -15,9 +15,9 @@ export const selectedDevice = (id) => ({
   payload: id,
 });
 
-export const loadUserDevices = (id) => ({
+export const loadUserDevices = (data) => ({
   type: actions.LOAD_USER_DEVICES,
-  payload: id,
+  payload: data,
 });
 
 export const changeStatus = (status) => ({

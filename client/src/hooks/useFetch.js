@@ -10,10 +10,21 @@ export const useFetch = (initialState) => {
 
   useEffect(() => {
     const fetchDevice = async () => {
-      const res = await fetch("http://localhost:5000/api/device");
-      const data = await res.json();
-      dispatch(getDevices(data));
-      data.forEach((el) => dispatch(loadUserDevices({ id: el.deviceID })));
+      try {
+        const res = await fetch("http://localhost:5000/api/device");
+        const data = await res.json();
+        if (data.length === 0) throw new Error("No Data");
+        await dispatch(getDevices(data));
+        await data.forEach((el) =>
+          dispatch(loadUserDevices({ id: el.deviceID, active: el.status }))
+        );
+      } catch (err) {
+        console.log(err.message);
+        if (err.message === "No Data") {
+          console.log("Refetching....");
+          fetchDevice();
+        }
+      }
       setLoading(false);
     };
 

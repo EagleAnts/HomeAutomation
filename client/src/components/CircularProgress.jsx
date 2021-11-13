@@ -19,17 +19,16 @@ const CustomCircularProgress = styled(CircularProgress)(() => ({
 export const CircularProgressComponent = (props) => {
   const dispatch = useDispatch();
 
-  const [value, setValue] = useState(0);
-
   const [deviceValue] = useSelector((state) =>
     state.UserDevices.DeviceStatus.filter((el) => el.id === props.deviceID).map(
       (el) => el.value || 0
     )
   );
+  const [value, setValue] = useState(deviceValue);
 
-  React.useEffect(() => {
-    setValue(deviceValue);
-  }, []);
+  // React.useEffect(() => {
+  //   setValue(deviceValue);
+  // }, []);
 
   return (
     <>
@@ -75,8 +74,8 @@ export const CircularProgressComponent = (props) => {
               flexDirection: "column",
             }}
           >
-            <Typography fontSize="1.5rem"> Temperature </Typography>
-            <Typography fontSize="2rem">{value}℃</Typography>
+            <Typography fontSize="1.5rem"> {props.label} </Typography>
+            <Typography fontSize="2rem">{value}</Typography>
           </Box>
 
           <CustomCircularProgress

@@ -10,6 +10,8 @@ import {
   Typography,
   IconButton,
   Card,
+  Avatar,
+  Stack,
 } from "@mui/material";
 import { Box } from "@mui/system";
 
@@ -108,19 +110,27 @@ export const Dashboard = (props) => {
           }}
           whileTap={{ scale: 0.9 }}
         >
-          <Typography
-            variant="h5"
-            fontFamily="roboto,sans-serif;"
-            fontSize="2rem"
-            fontWeight="600"
-            gutterBottom
+          <Stack
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            spacing={1}
           >
-            Hello, Paritosh!
-          </Typography>
+            <Avatar src="./broken-img" sx={{ height: 70, width: 70 }} />
+            <Typography
+              variant="h5"
+              fontFamily="roboto,sans-serif;"
+              fontSize="2rem"
+              fontWeight="600"
+              gutterBottom
+            >
+              Hello, Paritosh!
+            </Typography>
+          </Stack>
           <Typography
             variant="body1"
             fontFamily="rubik, sans-serif;"
-            fontSize="1.2rem"
+            fontSize="1.5rem"
             fontWeight="600"
             gutterBottom
           >

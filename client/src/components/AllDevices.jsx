@@ -3,9 +3,11 @@ import { Grid } from "@mui/material";
 import AddDeviceModal from "./TransitionModal";
 import Carousel from "./DeviceCarousel";
 import { motion } from "framer-motion";
-import { Box, Typography, Backdrop, Modal, Fade } from "@mui/material";
+import { Stack, Box, Typography, Backdrop, Modal, Fade } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { showDeviceDetails } from "../redux/actions/action";
+import { DeviceModalSwitch } from "./Switch";
+import { changeStatus } from "../redux/actions/action";
 
 const gridAnimations = {
   in: { opacity: 1 },
@@ -31,17 +33,33 @@ const style = {
 const DetailsModal = (props) => {
   const dispatch = useDispatch();
 
+  const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
+
+  const { active: deviceStatus } = useSelector((state) => {
+    if (deviceID) {
+      return state.UserDevices.DeviceStatus.find((el) => el.id === deviceID);
+    }
+    return { active: false };
+  });
+
+  const device = !deviceID
+    ? {}
+    : props.devices.find((el) => el.deviceID === deviceID);
+
+  const onClickHandler = (deviceID) => {
+    dispatch(changeStatus({ id: deviceID, active: !deviceStatus }));
+    // currentSocket.emit("device_event", { id: deviceID, active: !isActive });
+  };
+
   const handleClose = () => {
     dispatch(showDeviceDetails(""));
   };
-  const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
-  const [device] = props.devices.filter((el) => el.deviceID === deviceID);
 
-  return (
+  return !deviceID ? null : (
     <Modal
       aria-labelledby="Device-Details"
       aria-describedby="Device-Modal"
-      open={deviceID ? true : false}
+      open={true}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -51,9 +69,20 @@ const DetailsModal = (props) => {
     >
       <Fade in={deviceID ? true : false}>
         <Box sx={style}>
-          <Typography variant="h6" component="h2">
-            {!device ? "" : device.name}
-          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+          >
+            <Typography variant="h6" component="h2">
+              {!device ? "" : device.name}
+            </Typography>
+            <DeviceModalSwitch
+              checked={deviceStatus || false}
+              onClick={() => onClickHandler(deviceID)}
+            />
+          </Stack>
         </Box>
       </Fade>
     </Modal>
