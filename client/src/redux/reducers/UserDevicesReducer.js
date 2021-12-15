@@ -2,7 +2,7 @@ import produce from "immer";
 import * as actions from "../actions/actionTypes";
 
 const initialState = {
-  DeviceStatus: [],
+  DeviceStatus: null,
   myDevices: [],
 };
 
@@ -14,7 +14,7 @@ const DevicesReducer = (state = initialState, action) =>
         break;
 
       case actions.LOAD_USER_DEVICES:
-        draft.DeviceStatus.push(action.payload);
+        draft.DeviceStatus = action.payload;
         break;
 
       case actions.GET_CURRENT_ROOM_DEVICES:

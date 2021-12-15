@@ -4,6 +4,7 @@ import AddDeviceModal from "./TransitionModal";
 import Carousel from "./DeviceCarousel";
 import { motion } from "framer-motion";
 import { Stack, Box, Typography, Backdrop, Modal, Fade } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { showDeviceDetails } from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";
@@ -15,13 +16,15 @@ const gridAnimations = {
 };
 
 const style = {
+  display: "flex",
+  flexDirection: "column",
   height: "400px",
   overflowY: "hidden",
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "400px",
   bgcolor: "background.paper",
   border: "1px solid #ccc",
   boxShadow: 24,
@@ -29,6 +32,16 @@ const style = {
   p: 4,
   outline: "none",
 };
+
+const DetailsDiv = styled("div")(() => ({
+  width: "100%",
+  display: "inline-flex",
+  justifyContent: "space-between",
+}));
+
+const DetailsTypo = styled(Typography)(() => ({
+  fontFamily: "lato, sans-serif;",
+}));
 
 const DetailsModal = (props) => {
   const dispatch = useDispatch();
@@ -55,6 +68,8 @@ const DetailsModal = (props) => {
     dispatch(showDeviceDetails(""));
   };
 
+  console.log(device);
+
   return !deviceID ? null : (
     <Modal
       aria-labelledby="Device-Details"
@@ -70,9 +85,10 @@ const DetailsModal = (props) => {
       <Fade in={deviceID ? true : false}>
         <Box sx={style}>
           <Stack
+            height={100}
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="flex-start"
             spacing={2}
           >
             <Typography variant="h6" component="h2">
@@ -83,6 +99,45 @@ const DetailsModal = (props) => {
               onClick={() => onClickHandler(deviceID)}
             />
           </Stack>
+          <Box
+            sx={{
+              height: "300px",
+              overflowY: "scroll",
+              borderRadius: "2%",
+              padding: "5%",
+              boxShadow: "inset 0 0 0.2rem 0 #ccc",
+            }}
+          >
+            <Stack
+              direction="column"
+              justifyContent="space-between"
+              alignItems="center"
+              spacing={2}
+            >
+              <DetailsDiv>
+                <DetailsTypo variant="h6">Area </DetailsTypo>
+                <DetailsTypo variant="h6" sx={{ textTransform: "capitalize" }}>
+                  {device.area}
+                </DetailsTypo>
+              </DetailsDiv>
+              <div style={{ width: "100%" }}>
+                <DetailsTypo variant="h6">Description </DetailsTypo>
+                <DetailsTypo variant="body1" textAlign="center">
+                  {device.description.description}
+                </DetailsTypo>
+              </div>
+              <DetailsDiv>
+                <DetailsTypo variant="h6">Power Consumption </DetailsTypo>
+                <DetailsTypo variant="h6">{25}W</DetailsTypo>
+              </DetailsDiv>
+              <DetailsDiv>
+                <DetailsTypo variant="h6">Status </DetailsTypo>
+                <DetailsTypo variant="h6">
+                  {deviceStatus ? "ON" : "OFF"}
+                </DetailsTypo>
+              </DetailsDiv>
+            </Stack>
+          </Box>
         </Box>
       </Fade>
     </Modal>
