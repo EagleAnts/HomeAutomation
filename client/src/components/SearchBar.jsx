@@ -4,6 +4,10 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { ButtonUnstyled, buttonUnstyledClasses } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 
 const SearchButtonRoot = styled("button")`
   min-height: 2rem;
@@ -34,20 +38,18 @@ const SearchButtonRoot = styled("button")`
 `;
 
 const style = {
-  height: "80%",
-  overflowY: "hidden",
+  height: "31.25rem",
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
+  width: "25rem",
+  backgroundColor: "background.paper",
   border: "1px solid #ccc",
   boxShadow: 24,
   borderRadius: "1.25rem",
-  padding: 1,
+  padding: "1px",
 };
-
 function SearchButton(props) {
   return <ButtonUnstyled {...props} component={SearchButtonRoot} />;
 }
@@ -83,15 +85,19 @@ const SearchBar = () => {
 
   const deviceList = (options) => {
     const list = options.map((device) => (
-      <div
+      <ListItem
         className="searchDropdown__item"
         key={device.name + "-" + device.area}
       >
-        {`${device.name} | ${device.area}`}
-      </div>
+        <ListItemButton disableGutters>
+          <ListItemText
+            sx={{ textAlign: "center" }}
+          >{`${device.name} | ${device.area}`}</ListItemText>
+        </ListItemButton>
+      </ListItem>
     ));
 
-    return <div className="searchDropdown__items">{list}</div>;
+    return <List disablePadding>{list}</List>;
   };
 
   return (
@@ -114,7 +120,7 @@ const SearchBar = () => {
         BackdropComponent={Backdrop}
         BackdropProps={{
           className: "backdrop",
-          backgroundColor: "#6f7e8c33",
+          backgroundcolor: "#6f7e8c33",
         }}
       >
         <Box sx={style}>
@@ -123,11 +129,7 @@ const SearchBar = () => {
               <div className="searchBar">
                 <input
                   id="searchQuery"
-                  className={
-                    searchQuery && filteredDevices.length !== 0
-                      ? "searchQueryInput active"
-                      : "searchQueryInput"
-                  }
+                  className="searchQueryInput"
                   value={searchQuery}
                   onInput={(e) => {
                     setSearchQuery(e.target.value);
@@ -146,22 +148,20 @@ const SearchBar = () => {
                 </button>
               </div>
               <div className="searchDropdown-Container">
-                <section>
-                  <div
-                    onClick={(e) => {
-                      setSearchQuery(e.target.innerText);
-                      setOpen(false);
-                      //   document.getElementById("searchQuerySubmit").click();
-                    }}
-                    className={
-                      searchQuery && filteredDevices.length !== 0
-                        ? "searchDropdown active"
-                        : "searchDropdown"
-                    }
-                  >
-                    {searchQuery ? deviceList(filteredDevices) : null}
-                  </div>
-                </section>
+                <div
+                  onClick={(e) => {
+                    setSearchQuery(e.target.innerText);
+                    setOpen(false);
+                    //   document.getElementById("searchQuerySubmit").click();
+                  }}
+                  className={
+                    searchQuery && filteredDevices.length !== 0
+                      ? "searchDropdown active"
+                      : "searchDropdown"
+                  }
+                >
+                  {searchQuery ? deviceList(filteredDevices) : null}
+                </div>
               </div>
             </div>
           </form>
