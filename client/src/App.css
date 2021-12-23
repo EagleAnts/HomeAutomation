@@ -38,6 +38,10 @@ body {
   border-radius: 1rem;
 }
 
+body .backdrop {
+  backdrop-filter: blur(1px);
+}
+
 /* FONTS */
 
 .greetings {
@@ -59,7 +63,6 @@ body {
   justify-content: space-around;
   position: fixed;
   bottom: 0;
-  z-index: 9999;
   left: 0;
   width: 100vw;
   height: auto;
@@ -113,7 +116,6 @@ body {
 .searchWrapper {
   width: 100%;
   max-width: 31.25rem;
-  margin: 0 11rem;
 }
 
 .searchBar {
@@ -123,22 +125,25 @@ body {
   align-items: center;
 }
 
-#searchQueryInput {
-  box-shadow: 0px 0px 5px 2px #ccc;
+.searchQueryInput {
   width: 100%;
   height: 3rem;
   background: #fff;
   outline: none;
   border: none;
-  border-radius: 1.625rem;
+  border-bottom: 1px solid rgb(224, 227, 231);
+  animation: border-radius 0.2s ease;
   padding: 0 3.5rem 0 1.5rem;
   font-size: 1.2rem;
 }
 
+.searchQueryInput.active {
+  border-radius: 1.625rem 1.625rem 0 0;
+}
 #searchQuerySubmit {
-  width: 3.5rem;
+  width: 3.4rem;
   height: 2.8rem;
-  margin-left: -3.5rem;
+  margin-left: -3rem;
   background: none;
   border: none;
   outline: none;
@@ -192,29 +197,12 @@ body {
 
 /* Devices */
 
-.devices::-webkit-scrollbar-track {
-  /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); */
-  /* -webkit-box-shadow: inset 0 0 6px rgba(242, 242, 242, 0.3); */
-  background-color: inherit;
+.devices {
+  scrollbar-width: none;
 }
 
 .devices::-webkit-scrollbar {
-  height: 10px;
-}
-
-.devices::-webkit-scrollbar-thumb {
-  background-color: #f90;
-  border-radius: 1rem;
-  background-image: -webkit-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
+  display: none;
 }
 
 /* My Devices */

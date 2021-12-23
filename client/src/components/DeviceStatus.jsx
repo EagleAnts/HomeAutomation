@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, Card, CircularProgress } from "@mui/material";
+import { Card } from "@mui/material";
 import { styled } from "@mui/system";
 import { changeStatus } from "../redux/actions/action";
 import { motion } from "framer-motion";

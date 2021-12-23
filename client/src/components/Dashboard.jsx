@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
 import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
@@ -42,14 +42,14 @@ const AreaDropdown = (props) => {
   const dropDownRef = useRef(null);
 
   const [isActive, setIsActive] = useDetectOutsideClick(dropDownRef, false);
-  const [haveText, sethaveText] = useState("Select Area");
+
+  const selectedRoom = useSelector((state) => state.ToggleDevices.selectedRoom);
 
   const handleClick = (e) => {
     setIsActive(!isActive);
   };
 
   const handleText = (ev) => {
-    sethaveText(ev.currentTarget.textContent);
     dispatch(roomSelected(ev.currentTarget.textContent));
   };
 
@@ -67,7 +67,7 @@ const AreaDropdown = (props) => {
       dropDownRef={dropDownRef}
       onClick={handleClick}
       isActive={isActive}
-      haveText={haveText}
+      haveText={!selectedRoom ? "Select Area" : selectedRoom}
     />
   );
 };

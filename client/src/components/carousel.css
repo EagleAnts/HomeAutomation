@@ -47,10 +47,13 @@
   padding: 10px;
 } */
 
-.device-container::-webkit-scrollbar {
-  height: 5px;
+.device-container {
+  scrollbar-width: none;
 }
-
+.device-container::-webkit-scrollbar {
+  display: none;
+}
+/* 
 .device-container::-webkit-scrollbar-thumb {
   background-color: #7b40f2;
   background-image: -webkit-linear-gradient(
@@ -64,7 +67,7 @@
     transparent
   );
   border-radius: 1.25rem;
-}
+} */
 
 #prev > *,
 #next > * {

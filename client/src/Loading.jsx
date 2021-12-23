@@ -12,7 +12,7 @@ const Loading = () => {
         justifyContent: "space-around",
       }}
     >
-      <div style={{ color: "#7b40f2" }} className="la-ball-pulse">
+      <div className="la-ball-pulse la-1x">
         <div></div>
         <div></div>
         <div></div>

@@ -4,13 +4,12 @@ const Device = require("../../Models/Device");
 const DeviceType = require("../../Models/DeviceType");
 
 router.get("/", (req, res) => {
-  Device.find({})
+  Device.find({}, { _id: 0 })
     .populate("description")
     .exec(function (err, device) {
       if (err) return handleError(err);
       res.json(device);
     });
-  // console.log(devices);
 });
 
 router.post("/add", async (req, res) => {

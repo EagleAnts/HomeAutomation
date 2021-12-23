@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Responsive } from "./Responsive";
 import "./App.css";
 import { useFetch } from "./hooks/useFetch";
-import { motion } from "framer-motion";
+
 //Socket.io
 import { SocketContext } from "./context/socket";
 
@@ -16,7 +16,7 @@ import Routes from "./Routes";
 import Loading from "./Loading";
 
 export default function App() {
-  const [loading, setLoading] = useFetch(true);
+  const [loading] = useFetch(true);
   const socket = useContext(SocketContext);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function App() {
                 <Grid item xs={12} sm={12} md={12}>
                   <Navbar />
                 </Grid>
-                <Grid item md={1} lg={1} mt={2} p={2} sx={{ zIndex: "100" }}>
+                <Grid item md={1} lg={1} mt={2} p={2}>
                   <Menu title="menu" />
                 </Grid>
                 <Grid

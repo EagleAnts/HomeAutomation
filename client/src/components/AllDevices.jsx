@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Grid } from "@mui/material";
 import AddDeviceModal from "./TransitionModal";
 import Carousel from "./DeviceCarousel";
@@ -68,8 +68,6 @@ const DetailsModal = (props) => {
     dispatch(showDeviceDetails(""));
   };
 
-  console.log(device);
-
   return !deviceID ? null : (
     <Modal
       aria-labelledby="Device-Details"
@@ -102,7 +100,6 @@ const DetailsModal = (props) => {
           <Box
             sx={{
               height: "300px",
-              overflowY: "scroll",
               borderRadius: "2%",
               padding: "5%",
               boxShadow: "inset 0 0 0.2rem 0 #ccc",

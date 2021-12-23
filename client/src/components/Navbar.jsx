@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Grid, Stack } from "@mui/material";
-
-import { BsSearch } from "react-icons/bs";
+import SearchBar from "./SearchBar";
+import { Stack } from "@mui/material";
 import { BsGearFill } from "react-icons/bs";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { IoNotificationsOutline } from "react-icons/io5";
@@ -24,18 +23,7 @@ export const Navbar = () => {
         sm={5}
         md={5}
       >
-        <div className="searchWrapper">
-          <div className="searchBar">
-            <input id="searchQueryInput" type="text" placeholder="Search" />
-            <button
-              id="searchQuerySubmit"
-              type="submit"
-              name="searchQuerySubmit"
-            >
-              <BsSearch color="purple" fontSize="1.2rem" />
-            </button>
-          </div>
-        </div>
+        <SearchBar />
         <Stack
           m="0 2rem"
           xs={6}

@@ -1,5 +1,6 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { selectedDevice } from "../redux/actions/action";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { Box, styled } from "@mui/material";
@@ -42,19 +43,39 @@ const StyledDiv = styled("div")({
 });
 
 const ToggleDevices = () => {
+  const storeData = useStore();
+
   const dispatch = useDispatch();
+
+  let toggleDevicesList = [];
 
   const selectedRoom = useSelector((state) => state.ToggleDevices.selectedRoom);
 
   const currentRoomDevices = useSelector(
     (state) => state.UserDevices.myDevices
   );
+  // const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 
-  const toggleDevicesList = buildToggleDevices(
-    dispatch,
-    currentRoomDevices,
-    selectedRoom
-  );
+  // console.log(activeDevice);
+
+  useEffect(() => {
+    const activeDevice = storeData.getState().ToggleDevices.activeDevice;
+    if (activeDevice) {
+      const [selectedDevice] = currentRoomDevices.filter(
+        (el) => el.deviceID === activeDevice
+      );
+      const id = selectedDevice.name + "-" + selectedDevice.area;
+      document.getElementById(id).checked = true;
+    }
+  }, []);
+
+  if (selectedRoom) {
+    toggleDevicesList = buildToggleDevices(
+      dispatch,
+      currentRoomDevices,
+      selectedRoom
+    );
+  }
 
   return (
     <>

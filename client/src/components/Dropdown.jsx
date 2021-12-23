@@ -23,7 +23,7 @@ const Dropdown = (props) => {
       whileTap={{ scale: 0.9 }}
       ref={props.dropDownRef}
       id={props.id}
-      className={props.isActive ? "dropdown active " : "dropdown "}
+      className={props.isActive ? "dropdown active" : "dropdown"}
       onClick={props.onClick}
     >
       <div className="dropdown__text">{props.haveText}</div>
