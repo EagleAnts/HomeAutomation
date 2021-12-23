@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
+import decryptUserData from "../cryptoFunctions/decryption";
 
 import { getDevices, loadUserDevices } from "../redux/actions/action";
 
@@ -9,13 +10,15 @@ export const useFetch = (initialState) => {
 
   const [loading, setLoading] = useState(initialState);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchDevices() {
       try {
         const res = await fetch("http://localhost:5000/api/device");
         const data = await res.json();
-        if (data.length === 0) throw new Error("No Data");
-        else saveDevices(data);
+        const { Data, password } = data;
+        const userData = await decryptUserData(Data, password);
+        if (userData.length === 0) throw new Error("No userData");
+        else saveDevices(userData);
       } catch (err) {
         console.log(err.message);
       }

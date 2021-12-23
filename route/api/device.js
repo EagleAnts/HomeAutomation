@@ -3,12 +3,13 @@ const router = express.Router();
 const Device = require("../../Models/Device");
 const DeviceType = require("../../Models/DeviceType");
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   Device.find({}, { _id: 0 })
     .populate("description")
     .exec(function (err, device) {
       if (err) return handleError(err);
-      res.json(device);
+      req.encryptUserData = device;
+      next();
     });
 });
 

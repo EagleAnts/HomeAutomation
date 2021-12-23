@@ -23,7 +23,11 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use("/", require("./middleware/decryption"));
+
 app.use("/api/device", require("./route/api/device"));
+
+app.use("/api/device", require("./middleware/encryption"));
 
 const PORT = process.env.PORT || 5000;
 
