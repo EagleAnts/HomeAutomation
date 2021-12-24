@@ -1,6 +1,7 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const app = express();
+const auth = require("./middleware/auth");
 
 //Connect Database
 
@@ -23,7 +24,13 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use("/api/users", require("./route/api/users"));
+
 app.use("/", require("./middleware/decryption"));
+
+app.use("/api/auth", require("./route/api/auth"));
+
+app.use("/api/setup", require("./route/api/setup"));
 
 app.use("/api/device", require("./route/api/device"));
 

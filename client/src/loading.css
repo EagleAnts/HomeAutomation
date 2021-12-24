@@ -46,10 +46,10 @@
   height: 10px;
   margin: 4px;
   border-radius: 100%;
-  -webkit-animation: ball-pulse 2s ease infinite;
-  -moz-animation: ball-pulse 2s ease infinite;
-  -o-animation: ball-pulse 2s ease infinite;
-  animation: ball-pulse 2s ease infinite;
+  -webkit-animation: ball-pulse 1s ease infinite;
+  -moz-animation: ball-pulse 1s ease infinite;
+  -o-animation: ball-pulse 1s ease infinite;
+  animation: ball-pulse 1s ease infinite;
 }
 .la-ball-pulse.la-sm {
   width: 26px;
