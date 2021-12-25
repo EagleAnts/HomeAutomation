@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
-
 import { getDevices, loadUserDevices } from "../redux/actions/action";
 
 export const useFetch = (initialState) => {
@@ -9,7 +7,7 @@ export const useFetch = (initialState) => {
 
   const [loading, setLoading] = useState(initialState);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function fetchDevices() {
       try {
         const res = await fetch("http://localhost:5000/api/device");
@@ -22,7 +20,17 @@ export const useFetch = (initialState) => {
     }
 
     function saveDevices(data) {
-      dispatch(getDevices(data));
+      const sortDeviceByArea = {};
+      data.forEach((el) => {
+        if (!sortDeviceByArea[el.area]) {
+          sortDeviceByArea[el.area] = [];
+        } else {
+          sortDeviceByArea[el.area].push(el);
+        }
+      });
+
+      dispatch(getDevices(sortDeviceByArea));
+
       const deviceList = data.map((el) => {
         return { id: el.deviceID, active: el.status };
       });

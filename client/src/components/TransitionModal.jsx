@@ -12,7 +12,11 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 // import { Popper } from "@mui/material";
 import { styled } from "@mui/system";
 
-import { refreshDevices } from "../redux/actions/action";
+import {
+  refreshDevices,
+  refreshDeviceStatus,
+  showLoadingIcon,
+} from "../redux/actions/action";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { Autocomplete } from "@mui/material";
@@ -76,6 +80,7 @@ const FormPropsTextFields = (props) => {
     };
 
     axios.post("http://localhost:5000/api/device/add", data).then((res) => {
+      dispatch(showLoadingIcon(true));
       dispatch(
         refreshDevices({
           deviceID,
@@ -85,6 +90,8 @@ const FormPropsTextFields = (props) => {
           description: res.data,
         })
       );
+      dispatch(refreshDeviceStatus({ id: deviceID, active: false }));
+      dispatch(showLoadingIcon(false));
     });
 
     props.setOpen(false);

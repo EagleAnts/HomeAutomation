@@ -1,3 +1,4 @@
+import produce from "immer";
 import * as actions from "../actions/actionTypes";
 
 const initialState = {
@@ -5,21 +6,19 @@ const initialState = {
   selectedRoom: "",
 };
 
-export default function (state = initialState, action) {
-  switch (action.type) {
-    case actions.SELECTED_DEVICE: {
-      return {
-        ...state,
-        activeDevice: action.payload,
-      };
+const ToggleDevices = (state = initialState, action) =>
+  produce(state, (draft) => {
+    switch (action.type) {
+      case actions.SELECTED_DEVICE:
+        draft.activeDevice = action.payload;
+        break;
+      case actions.SELECTED_ROOM:
+        draft.selectedRoom = action.payload;
+        break;
+
+      default:
+        break;
     }
-    case actions.SELECTED_ROOM: {
-      return {
-        ...state,
-        selectedRoom: action.payload,
-      };
-    }
-    default:
-      return state;
-  }
-}
+  });
+
+export default ToggleDevices;

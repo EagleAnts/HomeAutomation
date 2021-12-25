@@ -52,7 +52,7 @@ const ToggleDevices = () => {
   const selectedRoom = useSelector((state) => state.ToggleDevices.selectedRoom);
 
   const currentRoomDevices = useSelector(
-    (state) => state.UserDevices.myDevices
+    (state) => state.UserDevices.myDevices[selectedRoom]
   );
   // const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 

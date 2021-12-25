@@ -13,7 +13,7 @@ const DeviceStatus = (props) => {
   const dispatch = useDispatch();
 
   const { active: deviceStatus } = useSelector((state) =>
-    state.UserDevices.DeviceStatus.find((el) => el.id === props.id)
+    state.DeviceStatus.find((el) => el.id === props.id)
   );
 
   const currentSocket = useContext(SocketContext);

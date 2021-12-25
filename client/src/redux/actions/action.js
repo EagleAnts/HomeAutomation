@@ -1,15 +1,28 @@
 import * as actions from "./actionTypes";
 
-export const refreshDevices = (devices) => ({
-  type: actions.UPDATE_DEVICES,
-  payload: devices,
-});
-
 export const getDevices = (data) => ({
   type: actions.GET_MY_DEVICES,
   payload: data,
 });
+export const refreshDevices = (devices) => ({
+  type: actions.REFRESH_USER_DEVICES,
+  payload: devices,
+});
 
+export const refreshDeviceStatus = (device) => ({
+  type: actions.REFRESH_DEVICE_STATUS,
+  payload: device,
+});
+
+export const removeDevice = (deviceInfo) => ({
+  type: actions.REMOVE_DEVICE,
+  payload: deviceInfo,
+});
+
+export const removeStatus = (deviceInfo) => ({
+  type: actions.REMOVE_STATUS,
+  payload: deviceInfo,
+});
 export const selectedDevice = (id) => ({
   type: actions.SELECTED_DEVICE,
   payload: id,
@@ -38,4 +51,9 @@ export const changeDeviceValue = (data) => ({
 export const showDeviceDetails = (deviceID) => ({
   type: actions.SHOW_DEVICE_DETAILS,
   payload: deviceID,
+});
+
+export const showLoadingIcon = (status) => ({
+  type: actions.SHOW_LOADING,
+  payload: status,
 });

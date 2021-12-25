@@ -1,14 +1,23 @@
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useHistory, useLocation } from "react-router-dom";
+import { Button, Grid } from "@mui/material";
 import AddDeviceModal from "./TransitionModal";
 import Carousel from "./DeviceCarousel";
 import { motion } from "framer-motion";
 import { Stack, Box, Typography, Backdrop, Modal, Fade } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { showDeviceDetails } from "../redux/actions/action";
+import {
+  removeDevice,
+  showDeviceDetails,
+  showLoadingIcon,
+  removeStatus,
+} from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";
 import { changeStatus } from "../redux/actions/action";
+import Loader from "./Loader/Loader";
+import { BsTrash } from "react-icons/bs";
 
 const gridAnimations = {
   in: { opacity: 1 },
@@ -43,21 +52,51 @@ const DetailsTypo = styled(Typography)(() => ({
   fontFamily: "lato, sans-serif;",
 }));
 
-const DetailsModal = (props) => {
+export const DetailsModal = (props) => {
   const dispatch = useDispatch();
 
+  const location = useLocation();
+  const history = useHistory();
+
   const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
+  const deviceArea = useSelector((state) => state.AllDevices.deviceArea);
+
+  const loading = useSelector((state) => state.AllDevices.showLoading);
+
+  const { devices } = props;
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search).get("query");
+    if (query) {
+      history.replace("/devices");
+      const [name, area] = query.split("-");
+      const { deviceID } = devices[area].find(
+        (el) => el.name === name && el.area === area
+      );
+      dispatch(showDeviceDetails({ deviceID, deviceArea: area }));
+      dispatch(showLoadingIcon(false));
+    }
+  }, [location]);
 
   const { active: deviceStatus } = useSelector((state) => {
     if (deviceID) {
-      return state.UserDevices.DeviceStatus.find((el) => el.id === deviceID);
+      return state.DeviceStatus.find((el) => el.id === deviceID);
     }
     return { active: false };
   });
 
   const device = !deviceID
     ? {}
-    : props.devices.find((el) => el.deviceID === deviceID);
+    : devices[deviceArea].find((el) => el.deviceID === deviceID);
+
+  const removeDeviceHandler = (deviceID) => () => {
+    dispatch(showLoadingIcon(true));
+    axios.post("http://localhost:5000/api/device/remove", { deviceID });
+    dispatch(removeDevice({ deviceID, deviceArea: deviceArea }));
+    dispatch(removeStatus({ deviceID, deviceArea: deviceArea }));
+    dispatch(showLoadingIcon(false));
+    handleClose();
+  };
 
   const onClickHandler = (deviceID) => {
     dispatch(changeStatus({ id: deviceID, active: !deviceStatus }));
@@ -68,7 +107,9 @@ const DetailsModal = (props) => {
     dispatch(showDeviceDetails(""));
   };
 
-  return !deviceID ? null : (
+  return loading ? (
+    <Loader />
+  ) : !deviceID ? null : (
     <Modal
       aria-labelledby="Device-Details"
       aria-describedby="Device-Modal"
@@ -135,6 +176,21 @@ const DetailsModal = (props) => {
               </DetailsDiv>
             </Stack>
           </Box>
+          <Button
+            onClick={removeDeviceHandler(deviceID)}
+            color="error"
+            sx={{ margin: 1, padding: 1 }}
+          >
+            <BsTrash size={25} pointerEvents="none" />
+            <DetailsTypo
+              variant="subtitle1"
+              sx={{ textTransform: "capitalize", pointerEvents: "none" }}
+              textAlign="center"
+              padding={1}
+            >
+              Remove Device
+            </DetailsTypo>
+          </Button>
         </Box>
       </Fade>
     </Modal>
@@ -142,26 +198,16 @@ const DetailsModal = (props) => {
 };
 
 const BuildCarousel = (props) => {
-  const areaList = [];
+  const { area } = props;
 
-  for (const area in props.area) {
-    areaList.push(
-      <Carousel key={area} area={area} devices={props.area[area]} />
-    );
-  }
-
-  return areaList;
+  return Object.keys(area).map((el) => {
+    if (area[el].length !== 0)
+      return <Carousel key={el} area={el} devices={area[el]} />;
+  });
 };
 
 export const AllDevices = () => {
   const devices = useSelector((state) => state.UserDevices.myDevices);
-
-  const area = {};
-
-  devices.forEach((el) => {
-    if (!area[el.area]) area[el.area] = [];
-    area[el.area].push(el);
-  });
 
   return (
     <>
@@ -178,7 +224,7 @@ export const AllDevices = () => {
         exit="out"
       >
         <AddDeviceModal />
-        <BuildCarousel area={area} />
+        <BuildCarousel area={devices} />
         <DetailsModal devices={devices} />
       </Grid>
     </>

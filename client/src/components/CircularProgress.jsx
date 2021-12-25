@@ -20,7 +20,7 @@ export const CircularProgressComponent = (props) => {
   const dispatch = useDispatch();
 
   const [deviceValue] = useSelector((state) =>
-    state.UserDevices.DeviceStatus.filter((el) => el.id === props.deviceID).map(
+    state.DeviceStatus.filter((el) => el.id === props.deviceID).map(
       (el) => el.value || 0
     )
   );

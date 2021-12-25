@@ -1,10 +1,15 @@
 const express = require("express");
+
 const router = express.Router();
 const Device = require("../../Models/Device");
 const DeviceType = require("../../Models/DeviceType");
 
+const changeStream = Device.watch().on("change", (change) =>
+  console.log(change.operationType)
+);
+
 router.get("/", (req, res) => {
-  Device.find({}, { _id: 0 })
+  Device.find({}, { _id: 0, __v: 0 })
     .populate("description")
     .exec(function (err, device) {
       if (err) return handleError(err);
@@ -22,10 +27,22 @@ router.post("/add", async (req, res) => {
     description: retrievedDevice._id,
     status: false,
   });
+  await device.save();
 
   res.json(retrievedDevice);
+});
 
-  await device.save();
+router.post("/remove", async (req, res) => {
+  const deviceID = req.body.deviceID;
+  console.log(deviceID);
+  await Device.findOneAndDelete({ deviceID: deviceID }).exec(function (
+    err,
+    device
+  ) {
+    if (err) console.log(err);
+    else console.log(device);
+  });
+  res.send("OK");
 });
 
 // for device Type

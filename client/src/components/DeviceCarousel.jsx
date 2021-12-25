@@ -10,8 +10,8 @@ import { showDeviceDetails } from "../redux/actions/action";
 const DeviceCarousel = (props) => {
   const dispatch = useDispatch();
 
-  const handleOpen = (deviceID) => {
-    dispatch(showDeviceDetails(deviceID));
+  const handleOpen = (deviceID, deviceArea) => {
+    dispatch(showDeviceDetails({ deviceID, deviceArea }));
   };
 
   const scrollContainer = (direction, event) => {
@@ -43,7 +43,7 @@ const DeviceCarousel = (props) => {
                 TransitionComponent={Zoom}
               >
                 <Paper
-                  onClick={() => handleOpen(device.deviceID)}
+                  onClick={() => handleOpen(device.deviceID, device.area)}
                   component={motion.div}
                   whileTap={{ scale: 0.9 }}
                   elevation={4}

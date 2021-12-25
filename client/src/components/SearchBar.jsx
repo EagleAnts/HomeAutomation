@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Backdrop, Modal, styled, Typography, Box } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { ButtonUnstyled, buttonUnstyledClasses } from "@mui/material";
+import { ButtonUnstyled } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { showLoadingIcon } from "../redux/actions/action";
 
 const SearchButtonRoot = styled("button")`
   min-height: 2rem;
@@ -18,7 +19,7 @@ const SearchButtonRoot = styled("button")`
   padding: 1rem;
   width: 100%;
   max-width: 25rem;
-  margin: 0 11rem;
+  margin: 0 8rem;
   font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
@@ -64,18 +65,34 @@ const filterDevices = (userDevices, query) => {
 };
 
 const SearchBar = () => {
+  const formEl = useRef();
+
+  const dispatch = useDispatch();
+
   const history = useHistory();
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const [name, area] = searchQuery.split(" | ");
-    history.push(`?s=${name}-${area.toLowerCase()}`);
+    dispatch(showLoadingIcon(true));
+    const searchFor = formEl.current.elements[0].textContent;
+    handleClose();
+    history.push({ pathname: "/devices", search: `?query=${searchFor}` });
+    setSearchQuery("");
   };
-  const { search } = window.location;
-  const query = new URLSearchParams(search).get("s");
-  const [searchQuery, setSearchQuery] = useState(query || "");
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   const userDevices = useSelector((state) => state.UserDevices.myDevices);
 
-  const filteredDevices = filterDevices(userDevices, searchQuery.toLowerCase());
+  const userDevicesList = [];
+
+  Object.keys(userDevices).forEach((el) => {
+    userDevicesList.push(...userDevices[el]);
+  });
+
+  const filteredDevices = searchQuery
+    ? filterDevices(userDevicesList, searchQuery.toLowerCase())
+    : [];
 
   const [open, setOpen] = useState(false);
 
@@ -124,7 +141,13 @@ const SearchBar = () => {
         }}
       >
         <Box sx={style}>
-          <form action="/" method="get" autoComplete="off" onSubmit={onSubmit}>
+          <form
+            ref={formEl}
+            action="/"
+            method="get"
+            autoComplete="off"
+            onSubmit={onSubmit}
+          >
             <div className="searchWrapper">
               <div className="searchBar">
                 <input
@@ -136,7 +159,6 @@ const SearchBar = () => {
                     setOpen(true);
                   }}
                   type="text"
-                  name="s"
                   placeholder="Search for Registered Devices"
                 />
                 <button
@@ -150,9 +172,9 @@ const SearchBar = () => {
               <div className="searchDropdown-Container">
                 <div
                   onClick={(e) => {
-                    setSearchQuery(e.target.innerText);
-                    setOpen(false);
-                    //   document.getElementById("searchQuerySubmit").click();
+                    formEl.current.elements[0].textContent =
+                      e.target.textContent.split(" | ").join("-");
+                    formEl.current.elements[1].click();
                   }}
                   className={
                     searchQuery && filteredDevices.length !== 0

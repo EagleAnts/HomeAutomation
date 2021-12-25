@@ -55,9 +55,7 @@ const AreaDropdown = (props) => {
 
   const options = [];
 
-  props.devices.forEach((el) => {
-    if (!options.includes(el.area)) options.push(el.area);
-  });
+  for (let x in props.devices) options.push(x);
 
   return (
     <Dropdown

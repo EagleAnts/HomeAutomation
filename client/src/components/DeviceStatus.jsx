@@ -26,7 +26,7 @@ const StatusDropdown = (props) => {
   const [haveText, sethaveText] = useState("Select Status");
 
   const [deviceStatus] = useSelector((state) =>
-    state.UserDevices.DeviceStatus.filter((el) => el.id === props.deviceID).map(
+    state.DeviceStatus.filter((el) => el.id === props.deviceID).map(
       (el) => el.active
     )
   );
@@ -72,19 +72,24 @@ const StatusDropdown = (props) => {
 
 const DeviceStatus = () => {
   const myDevices = useSelector((state) => state.UserDevices.myDevices);
+  const selectedRoom = useSelector((state) => state.ToggleDevices.selectedRoom);
   const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 
-  const [deviceDetails] = myDevices
-    .filter((el) => el.deviceID === activeDevice)
-    .map((el) => {
-      const deviceType = el.description.type;
-      return {
-        status: deviceStatusList[deviceType].status,
-        icon: deviceStatusList[deviceType].icon,
-        label: deviceStatusList[deviceType].label || " ",
-        incrementBy: deviceStatusList[deviceType].incrementBy || " ",
-      };
-    });
+  const deviceDetails = useRef({});
+
+  if (activeDevice) {
+    myDevices[selectedRoom]
+      .filter((el) => el.deviceID === activeDevice)
+      .forEach((el) => {
+        const deviceType = el.description.type;
+        deviceDetails.current = {
+          status: deviceStatusList[deviceType].status,
+          icon: deviceStatusList[deviceType].icon,
+          label: deviceStatusList[deviceType].label || " ",
+          incrementBy: deviceStatusList[deviceType].incrementBy || " ",
+        };
+      });
+  }
 
   // const [isLoading, setLoading] = useState(null);
 
@@ -159,16 +164,16 @@ const DeviceStatus = () => {
               <StatusDropdown deviceID={activeDevice} />
             </div>
             <div id="status-indicator" className="deviceOff">
-              {!deviceDetails.status ? (
+              {!deviceDetails.current.status ? (
                 <img
-                  src={deviceDetails.icon}
+                  src={deviceDetails.current.icon}
                   alt="device_png"
                   style={{ height: "inherit" }}
                 />
               ) : (
                 <CircularProgressComponent
-                  incrementBy={deviceDetails.incrementBy}
-                  label={deviceDetails.label}
+                  incrementBy={deviceDetails.current.incrementBy}
+                  label={deviceDetails.current.label}
                   deviceID={activeDevice}
                 />
               )}
