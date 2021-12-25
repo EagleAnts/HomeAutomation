@@ -14,6 +14,11 @@ export const refreshDeviceStatus = (device) => ({
   payload: device,
 });
 
+export const addDevice = (device) => ({
+  type: actions.ADD_DEVICE,
+  payload: device,
+});
+
 export const removeDevice = (deviceInfo) => ({
   type: actions.REMOVE_DEVICE,
   payload: deviceInfo,
@@ -23,6 +28,12 @@ export const removeStatus = (deviceInfo) => ({
   type: actions.REMOVE_STATUS,
   payload: deviceInfo,
 });
+
+export const removeDeviceArea = (deviceArea) => ({
+  type: actions.REMOVE_DEVICE_AREA,
+  payload: deviceArea,
+});
+
 export const selectedDevice = (id) => ({
   type: actions.SELECTED_DEVICE,
   payload: id,

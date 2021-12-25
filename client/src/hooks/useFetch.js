@@ -1,4 +1,5 @@
 import { useState, useLayoutEffect } from "react";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getDevices, loadUserDevices } from "../redux/actions/action";
 
@@ -10,25 +11,27 @@ export const useFetch = (initialState) => {
   useLayoutEffect(() => {
     async function fetchDevices() {
       try {
-        const res = await fetch("http://localhost:5000/api/device");
-        const data = await res.json();
+        const res = await axios("http://localhost:5000/api/device");
+        const data = res.data;
         if (data.length === 0) throw new Error("No Data");
         else saveDevices(data);
       } catch (err) {
+        setLoading(false);
         console.log(err.message);
       }
     }
 
     function saveDevices(data) {
+      const area = [];
       const sortDeviceByArea = {};
       data.forEach((el) => {
-        if (!sortDeviceByArea[el.area]) {
+        if (!area.includes(el.area)) {
           sortDeviceByArea[el.area] = [];
-        } else {
-          sortDeviceByArea[el.area].push(el);
         }
+        sortDeviceByArea[el.area].push(el);
       });
 
+      console.log(sortDeviceByArea);
       dispatch(getDevices(sortDeviceByArea));
 
       const deviceList = data.map((el) => {

@@ -13,6 +13,7 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 import { styled } from "@mui/system";
 
 import {
+  addDevice,
   refreshDevices,
   refreshDeviceStatus,
   showLoadingIcon,
@@ -82,7 +83,7 @@ const FormPropsTextFields = (props) => {
     axios.post("http://localhost:5000/api/device/add", data).then((res) => {
       dispatch(showLoadingIcon(true));
       dispatch(
-        refreshDevices({
+        addDevice({
           deviceID,
           name,
           area,
@@ -106,7 +107,6 @@ const FormPropsTextFields = (props) => {
         height: "80%",
         "& .MuiTextField-root": { m: 1, width: "100%" },
       }}
-      noValidate
       autoComplete="off"
       onSubmit={saveDevice}
       justifyContent="space-around"
@@ -132,6 +132,7 @@ const FormPropsTextFields = (props) => {
         renderInput={(params) => (
           <CustomTextField
             {...params}
+            required
             label="Select Device"
             placeholder="(Device Description)"
           >

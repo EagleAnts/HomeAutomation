@@ -13,6 +13,7 @@ import {
   showDeviceDetails,
   showLoadingIcon,
   removeStatus,
+  removeDeviceArea,
 } from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";
 import { changeStatus } from "../redux/actions/action";
@@ -91,7 +92,9 @@ export const DetailsModal = (props) => {
 
   const removeDeviceHandler = (deviceID) => () => {
     dispatch(showLoadingIcon(true));
-    axios.post("http://localhost:5000/api/device/remove", { deviceID });
+    axios
+      .post("http://localhost:5000/api/device/remove", { deviceID })
+      .then((res) => console.log(res));
     dispatch(removeDevice({ deviceID, deviceArea: deviceArea }));
     dispatch(removeStatus({ deviceID, deviceArea: deviceArea }));
     dispatch(showLoadingIcon(false));
@@ -207,6 +210,7 @@ const BuildCarousel = (props) => {
 };
 
 export const AllDevices = () => {
+  const dispatch = useDispatch();
   const devices = useSelector((state) => state.UserDevices.myDevices);
 
   return (
@@ -224,7 +228,7 @@ export const AllDevices = () => {
         exit="out"
       >
         <AddDeviceModal />
-        <BuildCarousel area={devices} />
+        <BuildCarousel area={devices} dispatch={dispatch} />
         <DetailsModal devices={devices} />
       </Grid>
     </>
