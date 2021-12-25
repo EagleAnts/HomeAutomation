@@ -16,14 +16,24 @@ const DevicesReducer = (state = initialState, action) =>
         draft.currentRoom = action.payload;
         break;
 
-      case actions.REFRESH_USER_DEVICES:
-        draft.myDevices[action.payload.area].push(action.payload);
+      case actions.ADD_DEVICE:
+        const area = action.payload.area;
+        if (!draft.myDevices[area]) {
+          const newDevice = {};
+          newDevice[area] = [];
+          draft.myDevices = { ...draft.myDevices, ...newDevice };
+        }
+        draft.myDevices[area].push(action.payload);
         break;
 
       case actions.REMOVE_DEVICE:
         draft.myDevices[action.payload.deviceArea] = draft.myDevices[
           action.payload.deviceArea
         ].filter((el) => el.deviceID !== action.payload.deviceID);
+        break;
+
+      case actions.REMOVE_DEVICE_AREA:
+        delete draft.myDevices[action.payload];
         break;
       default:
         break;
