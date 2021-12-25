@@ -13,6 +13,7 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 import { styled } from "@mui/system";
 
 import {
+  addDevice,
   refreshDevices,
   refreshDeviceStatus,
   showLoadingIcon,
@@ -82,7 +83,7 @@ const FormPropsTextFields = (props) => {
     axios.post("http://localhost:5000/api/device/add", data).then((res) => {
       dispatch(showLoadingIcon(true));
       dispatch(
-        refreshDevices({
+        addDevice({
           deviceID,
           name,
           area,

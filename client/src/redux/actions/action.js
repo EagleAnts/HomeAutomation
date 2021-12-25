@@ -14,6 +14,11 @@ export const refreshDeviceStatus = (device) => ({
   payload: device,
 });
 
+export const addDevice = (device) => ({
+  type: actions.ADD_DEVICE,
+  payload: device,
+});
+
 export const removeDevice = (deviceInfo) => ({
   type: actions.REMOVE_DEVICE,
   payload: deviceInfo,

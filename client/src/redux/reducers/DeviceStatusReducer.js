@@ -1,7 +1,7 @@
 import produce from "immer";
 import * as actions from "../actions/actionTypes";
 
-const initialState = null;
+const initialState = [];
 
 const StatusReducer = (state = initialState, action) =>
   produce(state, (draft) => {

@@ -34,15 +34,13 @@ router.post("/add", async (req, res) => {
 
 router.post("/remove", async (req, res) => {
   const deviceID = req.body.deviceID;
-  console.log(deviceID);
   await Device.findOneAndDelete({ deviceID: deviceID }).exec(function (
     err,
     device
   ) {
     if (err) console.log(err);
-    else console.log(device);
+    else res.send("OK");
   });
-  res.send("OK");
 });
 
 // for device Type

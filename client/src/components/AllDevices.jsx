@@ -91,7 +91,9 @@ export const DetailsModal = (props) => {
 
   const removeDeviceHandler = (deviceID) => () => {
     dispatch(showLoadingIcon(true));
-    axios.post("http://localhost:5000/api/device/remove", { deviceID });
+    axios
+      .post("http://localhost:5000/api/device/remove", { deviceID })
+      .then((res) => console.log(res));
     dispatch(removeDevice({ deviceID, deviceArea: deviceArea }));
     dispatch(removeStatus({ deviceID, deviceArea: deviceArea }));
     dispatch(showLoadingIcon(false));
