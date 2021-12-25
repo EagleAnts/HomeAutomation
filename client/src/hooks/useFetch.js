@@ -32,6 +32,7 @@ export const useFetch = (initialState) => {
         sortDeviceByArea[el.area].push(el);
       });
 
+      console.log(sortDeviceByArea);
       dispatch(getDevices(sortDeviceByArea));
 
       const deviceList = data.map((el) => {
