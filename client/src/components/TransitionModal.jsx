@@ -24,6 +24,7 @@ import { Autocomplete } from "@mui/material";
 
 //Devices List
 import { devicesList } from "../optionsList/devicesList";
+import encryptedPost from "../encryptedPost";
 
 //Encryption
 import encryptData from "../cryptoFunctions/encrypt";
@@ -83,7 +84,7 @@ const FormPropsTextFields = (props) => {
       area,
     });
 
-    axios.post("http://localhost:5000/api/device/add", data).then((res) => {
+    encryptedPost(data, "api/device/add", true).then((res) => {
       dispatch(showLoadingIcon(true));
       dispatch(
         addDevice({
@@ -91,7 +92,7 @@ const FormPropsTextFields = (props) => {
           name,
           area,
           status: false,
-          description: res.data,
+          description: res,
         })
       );
       dispatch(refreshDeviceStatus({ id: deviceID, active: false }));

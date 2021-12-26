@@ -1,11 +1,18 @@
 const CryptoJS = require("crypto-js");
 
-export default function encryptUserData(key, iv, data) {
-  const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), key, {
-    iv: iv,
-  }).ciphertext;
+let encryptParams;
 
-  const concatenned = CryptoJS.lib.WordArray.create().concat(encrypted);
+export const getEncryptParams = () => {
+  return encryptParams;
+};
 
-  return { Data: concatenned.toString(CryptoJS.enc.Base64) };
+export const setEncryptParams = (val) => {
+  encryptParams = val;
+};
+export default function encryptData(encryptUserData) {
+  var ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify({encryptUserData,}),
+    encryptParams.value
+  ).toString();
+  return ciphertext;
 }

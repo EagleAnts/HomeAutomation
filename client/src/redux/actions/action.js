@@ -68,3 +68,8 @@ export const showLoadingIcon = (status) => ({
   type: actions.SHOW_LOADING,
   payload: status,
 });
+
+export const updateAES = (data) => ({
+  type: actions.AES_UPDATED,
+  payload: data,
+});

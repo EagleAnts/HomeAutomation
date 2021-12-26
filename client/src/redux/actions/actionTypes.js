@@ -13,3 +13,4 @@ export const SHOW_LOADING = "SHOW_LOADING";
 export const REMOVE_DEVICE = "REMOVE_DEVICE";
 export const REMOVE_DEVICE_AREA = "REMOVE_DEVICE_AREA";
 export const REMOVE_STATUS = "REMOVE_STATUS";
+export const AES_UPDATED = "AES_UPDATED";

@@ -8,7 +8,7 @@ const changeStream = Device.watch().on("change", (change) =>
   console.log(change.operationType)
 );
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   Device.find({}, { _id: 0, __v: 0 })
     .populate("description")
     .exec(function (err, device) {
@@ -18,7 +18,9 @@ router.get("/", (req, res) => {
     });
 });
 
-router.post("/add", async (req, res) => {
+router.post("/add", async (req, res, next) => {
+  console.log(req.body);
+
   const deviceType = req.body.option;
 
   const retrievedDevice = await DeviceType.findOne({ type: deviceType });
@@ -30,7 +32,10 @@ router.post("/add", async (req, res) => {
   });
   await device.save();
 
-  res.json(retrievedDevice);
+  console.log(retrievedDevice)
+  req.encryptUserData = retrievedDevice;
+  next();
+  // res.json(retrievedDevice);
 });
 
 router.post("/remove", async (req, res) => {

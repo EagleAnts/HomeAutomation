@@ -1,58 +1,55 @@
 require("dotenv").config();
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const User = require("../../Models/User");
 const router = express.Router();
 
 // Register
 router.post("/", async (req, res) => {
   // Our register logic starts here
+  console.log(req.body)
   try {
     // Get user input
-    const { first_name, last_name, email, password } = req.body;
+    const firstName = req.body.firstName.trim();
+    const middleName = req.body.middleName.trim();
+    const lastName = req.body.lastName.trim();
+    const email = req.body.email.trim();
+    const password = req.body.password;
 
-    // Validate user input
-    if (!(email && password && first_name && last_name)) {
-      res.status(400).send("All input is required");
-    }
-
-    // check if user already exist
-    // Validate if user exist in our database
-    const oldUser = await User.findOne({ email });
-
-    if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
-    }
-
-    //Encrypt user password
-    encryptedPassword = await bcrypt.hash(password, 10);
-
-    // Create user in our database
-    const user = await User.create({
-      first_name,
-      last_name,
-      email: email.toLowerCase(), // sanitize: convert email to lowercase
-      password: encryptedPassword,
-    });
-
-    // Create token
-    const token = jwt.sign(
-      { user_id: user._id, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
+    if (req.body.confirmPassword === password && firstName && email) {
+      const foundUser = await User.findOne({ email: email }).catch((err) =>
+        console.log(err)
+      );
+      if (foundUser == null) {
+        const user = await User.create({
+          firstName,
+          middleName,
+          lastName,
+          email,
+          password: await bcrypt.hash(password, 10),
+        });
+        // Create token
+        // const token = jwt.sign(
+        //   { user_id: user._id, email },
+        //   process.env.TOKEN_KEY,
+        //   {
+        //     expiresIn: "2h",
+        //   }
+        // );
+        // save user token
+        // user.token = token;
+        req.session.user = user;
+        req.session.encryptParams = req.encryptParams;
+        res.status(200).send("Success");
+      } else {
+        res.status(201).send("User Already Registered");
       }
-    );
-    // save user token
-    user.token = token;
-
-    // return new user
-    res.status(201).json(user);
+    } else {
+      res.status(201).send("Registeration credentials incorrect");
+    }
   } catch (err) {
     console.log(err);
   }
-  // Our register logic ends here
 });
 
 module.exports = router;

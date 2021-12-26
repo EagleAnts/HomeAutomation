@@ -9,6 +9,7 @@ import { deviceStatusList } from "../optionsList/devicesList";
 
 import Dropdown from "./Dropdown";
 import { CircularProgressComponent } from "./CircularProgress";
+import { getEncryptParams } from "../cryptoFunctions/encrypt";
 
 const StyledDiv = styled("div")({
   margin: "2rem",
@@ -42,6 +43,7 @@ const StatusDropdown = (props) => {
   }, [deviceStatus]);
 
   const handleClick = () => {
+    console.log("Test 2 : " + getEncryptParams());
     setIsActive(!isActive);
   };
 
