@@ -39,7 +39,7 @@ router.post("/remove", async (req, res) => {
     device
   ) {
     if (err) console.log(err);
-    else res.send("OK");
+    else res.send("Device Removed...");
   });
 });
 

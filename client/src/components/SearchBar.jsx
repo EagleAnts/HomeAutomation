@@ -68,12 +68,12 @@ const SearchBar = (props) => {
     const list = options.map((device) => (
       <ListItem
         className="searchDropdown__item"
-        key={device.name + "-" + device.area}
+        key={device.name + "_" + device.description.type + "_" + device.area}
       >
         <ListItemButton disableGutters>
           <ListItemText
             sx={{ textAlign: "center" }}
-          >{`${device.name} | ${device.area}`}</ListItemText>
+          >{`${device.name} | ${device.description.type} | ${device.area}`}</ListItemText>
         </ListItemButton>
       </ListItem>
     ));

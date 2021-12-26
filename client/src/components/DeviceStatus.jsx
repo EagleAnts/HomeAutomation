@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDetectOutsideClick } from "../hooks/useDetectOutsideClick";
 import { useSelector, useDispatch } from "react-redux";
-import { Card } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 import { changeStatus } from "../redux/actions/action";
 import { motion } from "framer-motion";
@@ -83,6 +83,7 @@ const DeviceStatus = () => {
       .forEach((el) => {
         const deviceType = el.description.type;
         deviceDetails.current = {
+          type: deviceType,
           status: deviceStatusList[deviceType].status,
           icon: deviceStatusList[deviceType].icon,
           label: deviceStatusList[deviceType].label || " ",
@@ -153,14 +154,22 @@ const DeviceStatus = () => {
                 width: "100%",
               }}
             >
-              <img
+              {/* <img
                 src="https://res.cloudinary.com/homeautomation/image/upload/v1636729490/weather-assests/2_whgnmv.png"
                 alt="weather-icon"
                 height="80px"
                 width="80px"
                 style={{ verticalAlign: "middle", marginRight: 8 }}
-              />
-              Currently Selected Device is : {activeDevice}
+              /> */}
+              <Typography
+                variant="h5"
+                sx={{
+                  textAlign: "left",
+                  fontFamily: "lato, sans-serif;",
+                }}
+              >
+                {deviceDetails.current.type}
+              </Typography>
               <StatusDropdown deviceID={activeDevice} />
             </div>
             <div id="status-indicator" className="deviceOff">

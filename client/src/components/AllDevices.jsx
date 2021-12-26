@@ -14,6 +14,7 @@ import {
   showLoadingIcon,
   removeStatus,
   removeDeviceArea,
+  selectedDevice,
 } from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";
 import { changeStatus } from "../redux/actions/action";
@@ -61,24 +62,7 @@ export const DetailsModal = (props) => {
 
   const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
   const deviceArea = useSelector((state) => state.AllDevices.deviceArea);
-
   const loading = useSelector((state) => state.AllDevices.showLoading);
-
-  const { devices } = props;
-
-  useEffect(() => {
-    const query = new URLSearchParams(location.search).get("query");
-    if (query) {
-      history.replace("/devices");
-      const [name, area] = query.split("-");
-      const { deviceID } = devices[area].find(
-        (el) => el.name === name && el.area === area
-      );
-      dispatch(showDeviceDetails({ deviceID, deviceArea: area }));
-      dispatch(showLoadingIcon(false));
-    }
-  }, [location]);
-
   const { active: deviceStatus } = useSelector((state) => {
     if (deviceID) {
       return state.DeviceStatus.find((el) => el.id === deviceID);
@@ -86,19 +70,37 @@ export const DetailsModal = (props) => {
     return { active: false };
   });
 
-  const device = !deviceID
-    ? {}
-    : devices[deviceArea].find((el) => el.deviceID === deviceID);
+  const device = useRef(null);
+  const { devices } = props;
+
+  if (deviceID) {
+    device.current = devices[deviceArea].find((el) => el.deviceID === deviceID);
+  } else device.current = "";
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search).get("query");
+    if (query) {
+      history.replace("/devices");
+      const [name, type, area] = query.split("-");
+      const { deviceID } = devices[area].find(
+        (el) =>
+          el.name === name && el.description.type === type && el.area === area
+      );
+      dispatch(showDeviceDetails({ deviceID, deviceArea: area }));
+      dispatch(showLoadingIcon(false));
+    }
+  }, [location]);
 
   const removeDeviceHandler = (deviceID) => () => {
     dispatch(showLoadingIcon(true));
     axios
       .post("http://localhost:5000/api/device/remove", { deviceID })
-      .then((res) => console.log(res));
+      .then((res) => console.log(res.data));
+    dispatch(selectedDevice(""));
     dispatch(removeDevice({ deviceID, deviceArea: deviceArea }));
     dispatch(removeStatus({ deviceID, deviceArea: deviceArea }));
-    dispatch(showLoadingIcon(false));
     handleClose();
+    dispatch(showLoadingIcon(false));
   };
 
   const onClickHandler = (deviceID) => {
@@ -127,14 +129,14 @@ export const DetailsModal = (props) => {
       <Fade in={deviceID ? true : false}>
         <Box sx={style}>
           <Stack
-            height={100}
+            height={50}
             direction="row"
             justifyContent="space-between"
             alignItems="flex-start"
             spacing={2}
           >
             <Typography variant="h6" component="h2">
-              {!device ? "" : device.name}
+              {!device.current ? "" : device.current.description.type}
             </Typography>
             <DeviceModalSwitch
               checked={deviceStatus || false}
@@ -145,7 +147,8 @@ export const DetailsModal = (props) => {
             sx={{
               height: "300px",
               borderRadius: "2%",
-              padding: "5%",
+              margin: "1%",
+              padding: "2%",
               boxShadow: "inset 0 0 0.2rem 0 #ccc",
             }}
           >
@@ -156,15 +159,22 @@ export const DetailsModal = (props) => {
               spacing={2}
             >
               <DetailsDiv>
+                <DetailsTypo variant="h6">Name </DetailsTypo>
+                <DetailsTypo variant="h6" sx={{ textTransform: "capitalize" }}>
+                  {device.current ? device.current.name : ""}
+                </DetailsTypo>
+              </DetailsDiv>
+
+              <DetailsDiv>
                 <DetailsTypo variant="h6">Area </DetailsTypo>
                 <DetailsTypo variant="h6" sx={{ textTransform: "capitalize" }}>
-                  {device.area}
+                  {device.current ? device.current.area : ""}
                 </DetailsTypo>
               </DetailsDiv>
               <div style={{ width: "100%" }}>
                 <DetailsTypo variant="h6">Description </DetailsTypo>
                 <DetailsTypo variant="body1" textAlign="center">
-                  {device.description.description}
+                  {device.current ? device.current.description.description : ""}
                 </DetailsTypo>
               </div>
               <DetailsDiv>
@@ -179,11 +189,7 @@ export const DetailsModal = (props) => {
               </DetailsDiv>
             </Stack>
           </Box>
-          <Button
-            onClick={removeDeviceHandler(deviceID)}
-            color="error"
-            sx={{ margin: 1, padding: 1 }}
-          >
+          <Button onClick={removeDeviceHandler(deviceID)} color="error">
             <BsTrash size={25} pointerEvents="none" />
             <DetailsTypo
               variant="subtitle1"

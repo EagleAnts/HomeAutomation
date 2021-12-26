@@ -15,17 +15,17 @@ const buildToggleDevices = (dispatch, devicesList, selectedRoom) => {
     .map((el) => {
       return (
         <motion.div
-          key={el.name + "-" + el.area}
+          key={el.name + "_" + el.description.type + "_" + el.area}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
           <input
             type="radio"
             name="buttonGroup"
-            id={el.name + "-" + el.area}
+            id={el.name + "_" + el.description.type + "_" + el.area}
             onChange={() => handleOnChange(el.deviceID)}
           />
-          <label htmlFor={el.name + "-" + el.area}>
+          <label htmlFor={el.name + "_" + el.description.type + "_" + el.area}>
             <CgSmartHomeRefrigerator fontSize="50px" />
             {el.name}
           </label>
@@ -61,8 +61,15 @@ const ToggleDevices = () => {
       const [selectedDevice] = currentRoomDevices.filter(
         (el) => el.deviceID === activeDevice
       );
-      const id = selectedDevice.name + "-" + selectedDevice.area;
-      document.getElementById(id).checked = true;
+      if (selectedDevice) {
+        const id =
+          selectedDevice.name +
+          "_" +
+          selectedDevice.description.type +
+          "_" +
+          selectedDevice.area;
+        document.getElementById(id).checked = true;
+      }
     }
   }, []);
 
