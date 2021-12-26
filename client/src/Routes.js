@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Dashboard } from "./components/Dashboard";
 import { AllDevices } from "./components/AllDevices";
+// import { LoginPage } from "./components/LoginPage";
 
 const Routes = () => {
   return (
@@ -11,6 +12,7 @@ const Routes = () => {
         <Route exact path="/">
           <Redirect exact to="/dashboard" />
         </Route>
+        {/* <Route path="/login" exact component={LoginPage} /> */}
         <Route path="/dashboard" exact component={Dashboard} />
         <Route path="/devices" exact component={AllDevices} />
       </Switch>

@@ -13,7 +13,8 @@ router.get("/", (req, res) => {
     .populate("description")
     .exec(function (err, device) {
       if (err) return handleError(err);
-      res.json(device);
+      req.encryptUserData = device;
+      next();
     });
 });
 

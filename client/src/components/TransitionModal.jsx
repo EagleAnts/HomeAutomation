@@ -25,6 +25,9 @@ import { Autocomplete } from "@mui/material";
 //Devices List
 import { devicesList } from "../optionsList/devicesList";
 
+//Encryption
+import encryptData from "../cryptoFunctions/encrypt";
+
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {
     color: "#7b40f2",
@@ -73,12 +76,12 @@ const FormPropsTextFields = (props) => {
 
     const deviceID = uuidv4();
 
-    const data = {
+    const data = await encryptData({
       deviceID,
       name,
       option,
       area,
-    };
+    });
 
     axios.post("http://localhost:5000/api/device/add", data).then((res) => {
       dispatch(showLoadingIcon(true));
