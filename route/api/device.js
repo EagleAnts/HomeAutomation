@@ -13,7 +13,10 @@ router.get("/", (req, res, next) => {
     .populate("description")
     .exec(function (err, device) {
       if (err) return handleError(err);
-      req.encryptUserData = device;
+      req.encryptUserData = {
+        device,
+        userData: `${req.session.user.firstName} ${req.session.user.lastName}`,
+      };
       next();
     });
 });
@@ -32,7 +35,7 @@ router.post("/add", async (req, res, next) => {
   });
   await device.save();
 
-  console.log(retrievedDevice)
+  console.log(retrievedDevice);
   req.encryptUserData = retrievedDevice;
   next();
   // res.json(retrievedDevice);

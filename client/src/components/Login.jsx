@@ -20,12 +20,12 @@ const Login = (props) => {
     val[target[0].name] = target[0].value;
     val[target[1].name] = target[1].value;
     rsaEncrypt(val, "login")
-      .then((data) => {
-        console.log(data);
-        if (data.status === 200) props.redirectHome();
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) props.redirectHome();
         else {
           setRegFlag(false);
-          setErrMess(data.data);
+          setErrMess(res.data);
         }
       })
       .catch((error) => {
@@ -44,15 +44,17 @@ const Login = (props) => {
       i++;
     }
     console.log("//");
-    
+
     console.log(val);
 
     rsaEncrypt(val, "register")
-      .then((data) => {
-        console.log(data);
-        if (data.status === 200) props.redirectHome();
-        else {setRegFlag(false);
-        setErrMess(data.data);}
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) props.redirectHome();
+        else {
+          setRegFlag(false);
+          setErrMess(res.data);
+        }
       })
       .catch((error) => {
         console.error("The Promise is rejected!", error);

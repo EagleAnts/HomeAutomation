@@ -20,6 +20,7 @@ import { DeviceModalSwitch } from "./Switch";
 import { changeStatus } from "../redux/actions/action";
 import Loader from "./Loader/Loader";
 import { BsTrash } from "react-icons/bs";
+import encryptedPost from "../encryptedPost";
 
 const gridAnimations = {
   in: { opacity: 1 },
@@ -93,9 +94,9 @@ export const DetailsModal = (props) => {
 
   const removeDeviceHandler = (deviceID) => () => {
     dispatch(showLoadingIcon(true));
-    axios
-      .post("http://localhost:5000/api/device/remove", { deviceID })
-      .then((res) => console.log(res.data));
+    encryptedPost({ deviceID }, "api/device/remove").then((res) =>
+      console.log(res.data)
+    );
     dispatch(selectedDevice(""));
     dispatch(removeDevice({ deviceID, deviceArea: deviceArea }));
     dispatch(removeStatus({ deviceID, deviceArea: deviceArea }));

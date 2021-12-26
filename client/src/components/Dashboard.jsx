@@ -74,6 +74,7 @@ export const Dashboard = (props) => {
   console.log("Rendering Dashboard...");
 
   const devices = useSelector((state) => state.UserDevices.myDevices);
+  const userName = useSelector((state) => state.UserDetails.username);
 
   const temperature = 40;
 
@@ -122,7 +123,7 @@ export const Dashboard = (props) => {
               fontWeight="600"
               gutterBottom
             >
-              Hello, Paritosh!
+              Hello, {userName}
             </Typography>
           </Stack>
           <Typography

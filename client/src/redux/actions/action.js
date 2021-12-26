@@ -4,6 +4,12 @@ export const getDevices = (data) => ({
   type: actions.GET_MY_DEVICES,
   payload: data,
 });
+
+export const addUserDetails = (data) => ({
+  type: actions.ADD_USER_DETAILS,
+  payload: data,
+});
+
 export const refreshDevices = (devices) => ({
   type: actions.REFRESH_USER_DEVICES,
   payload: devices,

@@ -7,7 +7,7 @@ const router = express.Router();
 // Register
 router.post("/", async (req, res) => {
   // Our register logic starts here
-  console.log(req.body)
+  console.log(req.body);
   try {
     // Get user input
     const firstName = req.body.firstName.trim();
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
         // user.token = token;
         req.session.user = user;
         req.session.encryptParams = req.encryptParams;
-        res.status(200).send("Success");
+        res.status(200).send(`${user.firstName} ${user.lastName}`);
       } else {
         res.status(201).send("User Already Registered");
       }

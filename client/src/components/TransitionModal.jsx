@@ -77,12 +77,12 @@ const FormPropsTextFields = (props) => {
 
     const deviceID = uuidv4();
 
-    const data = await encryptData({
+    const data = {
       deviceID,
       name,
       option,
       area,
-    });
+    };
 
     encryptedPost(data, "api/device/add", true).then((res) => {
       dispatch(showLoadingIcon(true));

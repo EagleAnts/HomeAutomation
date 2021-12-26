@@ -2,7 +2,11 @@ import { useState, useLayoutEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import decryptUserData from "../cryptoFunctions/decryption";
-import { getDevices, loadUserDevices } from "../redux/actions/action";
+import {
+  getDevices,
+  loadUserDevices,
+  addUserDetails,
+} from "../redux/actions/action";
 import encryptedGet from "../encryptedGet";
 
 export const useFetch = (initialState) => {
@@ -14,7 +18,8 @@ export const useFetch = (initialState) => {
     async function fetchDevices() {
       try {
         const res = await encryptedGet("api/device");
-        let data = res;
+        let data = res.device;
+        dispatch(addUserDetails(res.userData));
         if (data.length === 0) throw new Error("No Data");
         else saveDevices(data);
       } catch (err) {
@@ -43,7 +48,6 @@ export const useFetch = (initialState) => {
       setLoading(false);
     }
 
-    setupConnection();
     fetchDevices();
   }, []);
 
