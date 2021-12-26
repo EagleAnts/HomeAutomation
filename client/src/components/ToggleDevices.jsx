@@ -54,12 +54,9 @@ const ToggleDevices = () => {
   const currentRoomDevices = useSelector(
     (state) => state.UserDevices.myDevices[selectedRoom]
   );
-  // const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
-
-  // console.log(activeDevice);
+  const activeDevice = useSelector((state) => state.ToggleDevices.activeDevice);
 
   useEffect(() => {
-    const activeDevice = storeData.getState().ToggleDevices.activeDevice;
     if (activeDevice) {
       const [selectedDevice] = currentRoomDevices.filter(
         (el) => el.deviceID === activeDevice

@@ -13,6 +13,7 @@ import {
   showDeviceDetails,
   showLoadingIcon,
   removeStatus,
+  removeDeviceArea,
 } from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";
 import { changeStatus } from "../redux/actions/action";
@@ -209,6 +210,7 @@ const BuildCarousel = (props) => {
 };
 
 export const AllDevices = () => {
+  const dispatch = useDispatch();
   const devices = useSelector((state) => state.UserDevices.myDevices);
 
   return (
@@ -226,7 +228,7 @@ export const AllDevices = () => {
         exit="out"
       >
         <AddDeviceModal />
-        <BuildCarousel area={devices} />
+        <BuildCarousel area={devices} dispatch={dispatch} />
         <DetailsModal devices={devices} />
       </Grid>
     </>

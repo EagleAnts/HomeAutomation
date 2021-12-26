@@ -21,15 +21,19 @@ const DevicesReducer = (state = initialState, action) =>
         if (!draft.myDevices[area]) {
           const newDevice = {};
           newDevice[area] = [];
-          newDevice[area].push(action.payload);
-          draft.myDevices = newDevice;
-        } else draft.myDevices[area].push(action.payload);
+          draft.myDevices = { ...draft.myDevices, ...newDevice };
+        }
+        draft.myDevices[area].push(action.payload);
         break;
 
       case actions.REMOVE_DEVICE:
         draft.myDevices[action.payload.deviceArea] = draft.myDevices[
           action.payload.deviceArea
         ].filter((el) => el.deviceID !== action.payload.deviceID);
+        break;
+
+      case actions.REMOVE_DEVICE_AREA:
+        delete draft.myDevices[action.payload];
         break;
       default:
         break;

@@ -28,6 +28,12 @@ export const removeStatus = (deviceInfo) => ({
   type: actions.REMOVE_STATUS,
   payload: deviceInfo,
 });
+
+export const removeDeviceArea = (deviceArea) => ({
+  type: actions.REMOVE_DEVICE_AREA,
+  payload: deviceArea,
+});
+
 export const selectedDevice = (id) => ({
   type: actions.SELECTED_DEVICE,
   payload: id,
@@ -61,4 +67,9 @@ export const showDeviceDetails = (deviceID) => ({
 export const showLoadingIcon = (status) => ({
   type: actions.SHOW_LOADING,
   payload: status,
+});
+
+export const updateAES = (data) => ({
+  type: actions.AES_UPDATED,
+  payload: data,
 });

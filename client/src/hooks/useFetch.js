@@ -1,7 +1,7 @@
 import { useState, useLayoutEffect } from "react";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getDevices, loadUserDevices } from "../redux/actions/action";
+import encryptedGet from "../encryptedGet";
 
 export const useFetch = (initialState) => {
   const dispatch = useDispatch();
@@ -11,8 +11,8 @@ export const useFetch = (initialState) => {
   useLayoutEffect(() => {
     async function fetchDevices() {
       try {
-        const res = await axios("http://localhost:5000/api/device");
-        const data = res.data;
+        const res = await encryptedGet("api/device");
+        let data = res;
         if (data.length === 0) throw new Error("No Data");
         else saveDevices(data);
       } catch (err) {
@@ -27,6 +27,7 @@ export const useFetch = (initialState) => {
       data.forEach((el) => {
         if (!area.includes(el.area)) {
           sortDeviceByArea[el.area] = [];
+          area.push(el.area);
         }
         sortDeviceByArea[el.area].push(el);
       });

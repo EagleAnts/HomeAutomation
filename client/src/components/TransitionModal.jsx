@@ -24,6 +24,7 @@ import { Autocomplete } from "@mui/material";
 
 //Devices List
 import { devicesList } from "../optionsList/devicesList";
+import encryptedPost from "../encryptedPost";
 
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -80,7 +81,7 @@ const FormPropsTextFields = (props) => {
       area,
     };
 
-    axios.post("http://localhost:5000/api/device/add", data).then((res) => {
+    encryptedPost(data, "api/device/add", true).then((res) => {
       dispatch(showLoadingIcon(true));
       dispatch(
         addDevice({
@@ -88,7 +89,7 @@ const FormPropsTextFields = (props) => {
           name,
           area,
           status: false,
-          description: res.data,
+          description: res,
         })
       );
       dispatch(refreshDeviceStatus({ id: deviceID, active: false }));
@@ -107,7 +108,6 @@ const FormPropsTextFields = (props) => {
         height: "80%",
         "& .MuiTextField-root": { m: 1, width: "100%" },
       }}
-      noValidate
       autoComplete="off"
       onSubmit={saveDevice}
       justifyContent="space-around"
@@ -133,6 +133,7 @@ const FormPropsTextFields = (props) => {
         renderInput={(params) => (
           <CustomTextField
             {...params}
+            required
             label="Select Device"
             placeholder="(Device Description)"
           >
