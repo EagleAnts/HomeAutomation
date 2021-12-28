@@ -1,8 +1,6 @@
 require("dotenv").config();
 const CryptoJS = require("crypto-js");
 const crypto = require("crypto");
-const salt_len = 16;
-const iv_len = 16;
 
 // function encryptionParams(data) {
 //   const key = CryptoJS.lib.WordArray.create(
@@ -12,7 +10,10 @@ const iv_len = 16;
 // }
 
 function aesDataDecryption(req) {
-  const bytes = CryptoJS.AES.decrypt(req.body.Data, req.session.encryptParams.key);
+  const bytes = CryptoJS.AES.decrypt(
+    req.body.Data,
+    req.session.encryptParams.key
+  );
   console.log(JSON.parse(bytes.toString(CryptoJS.enc.Utf8)));
   req.body = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)).encryptUserData;
 }

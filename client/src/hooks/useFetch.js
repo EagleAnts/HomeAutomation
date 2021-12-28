@@ -1,7 +1,5 @@
-import { useState, useLayoutEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import decryptUserData from "../cryptoFunctions/decryption";
 import {
   getDevices,
   loadUserDevices,
@@ -14,7 +12,8 @@ export const useFetch = (initialState) => {
 
   const [loading, setLoading] = useState(initialState);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log("Fetching Devices");
     async function fetchDevices() {
       try {
         const res = await encryptedGet("api/device");
@@ -49,7 +48,7 @@ export const useFetch = (initialState) => {
     }
 
     fetchDevices();
-  }, []);
+  }, [dispatch]);
 
   return [loading, setLoading];
 };

@@ -12,8 +12,9 @@ import { AmberSwitch } from "./Switch";
 const DeviceStatus = (props) => {
   const dispatch = useDispatch();
 
-  const { active: deviceStatus } = useSelector((state) =>
-    state.DeviceStatus.find((el) => el.id === props.id)
+  const { active: deviceStatus } = useSelector(
+    (state) =>
+      state.DeviceStatus.find((el) => el.id === props.id) || { active: false }
   );
 
   const currentSocket = useContext(SocketContext);

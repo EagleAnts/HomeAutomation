@@ -10,8 +10,8 @@ export const setEncryptParams = (val) => {
   encryptParams = val;
 };
 export default function encryptData(encryptUserData) {
-  var ciphertext = CryptoJS.AES.encrypt(
-    JSON.stringify({encryptUserData,}),
+  let ciphertext = CryptoJS.AES.encrypt(
+    JSON.stringify({ encryptUserData }),
     encryptParams.value
   ).toString();
   return ciphertext;

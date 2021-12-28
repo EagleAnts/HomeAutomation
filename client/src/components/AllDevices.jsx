@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useEffect, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { Button, Grid } from "@mui/material";
 import AddDeviceModal from "./TransitionModal";
@@ -13,7 +12,6 @@ import {
   showDeviceDetails,
   showLoadingIcon,
   removeStatus,
-  removeDeviceArea,
   selectedDevice,
 } from "../redux/actions/action";
 import { DeviceModalSwitch } from "./Switch";

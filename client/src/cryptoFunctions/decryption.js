@@ -1,7 +1,5 @@
 const CryptoJS = require("crypto-js");
-const salt_len = 16;
-const iv_len = 16;
-var decryptParams;
+let decryptParams;
 
 export const getEncryptParams = () => {
   return decryptParams;

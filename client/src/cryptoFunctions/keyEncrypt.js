@@ -1,7 +1,5 @@
 import { setDecryptParams } from "./decryption";
 import { setEncryptParams } from "./encrypt";
-const CryptoJS = require("crypto-js");
-
 // program to generate random strings
 
 // declare all characters

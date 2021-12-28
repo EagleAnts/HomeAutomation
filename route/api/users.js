@@ -7,7 +7,6 @@ const router = express.Router();
 // Register
 router.post("/", async (req, res) => {
   // Our register logic starts here
-  console.log(req.body);
   try {
     // Get user input
     const firstName = req.body.firstName.trim();

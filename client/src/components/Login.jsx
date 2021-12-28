@@ -7,6 +7,7 @@ const Login = (props) => {
   const [confPasswd, setConfPasswd] = useState("");
   const [passwdFlag, setPasswdFlag] = useState(true);
   const [errMess, setErrMess] = useState("");
+
   function confirmPasswd(e) {
     const val = e.target.value;
     setConfPasswd(val);
@@ -21,7 +22,6 @@ const Login = (props) => {
     val[target[1].name] = target[1].value;
     rsaEncrypt(val, "login")
       .then((res) => {
-        console.log(res);
         if (res.status === 200) props.redirectHome();
         else {
           setRegFlag(false);
@@ -36,20 +36,15 @@ const Login = (props) => {
   function regUser(e) {
     e.preventDefault();
     const target = e.target;
-    console.log(e);
     const val = {};
     let i = 0;
     while (i < 6) {
       val[target[i].name] = target[i].value;
       i++;
     }
-    console.log("//");
-
-    console.log(val);
 
     rsaEncrypt(val, "register")
       .then((res) => {
-        console.log(res);
         if (res.status === 200) props.redirectHome();
         else {
           setRegFlag(false);
@@ -62,20 +57,20 @@ const Login = (props) => {
   }
 
   return (
-    <div>
+    <div className="form-container">
       <header>
         <h1>Home Automation</h1>
       </header>
       <form
+        id={regFlag ? "register" : "login"}
         className="create-note"
         method="post"
         onSubmit={regFlag ? regUser : loginUser}
       >
         <h1>{regFlag ? "Register" : "Login"}</h1>
-        <h5 className="error">{errMess}</h5>
+        <h5 className={!errMess ? "no-error" : "error"}>{errMess}</h5>
         {regFlag && (
           <label htmlFor="First Name">
-            <p>First Name : </p>
             <input
               type="text"
               name="firstName"
@@ -86,21 +81,21 @@ const Login = (props) => {
         )}
         {regFlag && (
           <label htmlFor="MiddleName">
-            <p>Middle Name : </p>
             <input type="text" name="middleName" placeholder="Middle Name" />
           </label>
         )}
         {regFlag && (
           <label htmlFor="Last Name">
-            <p>Last Name : </p>
             <input type="text" name="lastName" placeholder="Last Name" />
           </label>
         )}
         <label htmlFor="Email">
-          <p>Email : </p>
           <input
             type="email"
             name="email"
+            onInput={() => {
+              setErrMess("");
+            }}
             placeholder="Email Address"
             required
           />
@@ -118,10 +113,12 @@ const Login = (props) => {
         )} */}
         {/* {regFlag&&<button>Verify</button>} */}
         <label htmlFor="Password">
-          <p>Password : </p>
           <input
             onChange={(e) => {
               setPasswd(e.target.value);
+            }}
+            onInput={() => {
+              setErrMess("");
             }}
             type="password"
             name="password"
@@ -132,13 +129,12 @@ const Login = (props) => {
         </label>
         {regFlag && (
           <label htmlFor="ConfirmPassword">
-            <p>Confirm Password : </p>
             <input
               type="password"
               name="confirmPassword"
               onChange={confirmPasswd}
               value={confPasswd}
-              placeholder="Password"
+              placeholder="Confirm Password"
               required
             />
             <h5 className="error">{!passwdFlag && "Passwords Do Not Match"}</h5>

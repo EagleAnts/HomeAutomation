@@ -1,5 +1,4 @@
 import * as React from "react";
-import axios from "axios";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -14,7 +13,6 @@ import { styled } from "@mui/system";
 
 import {
   addDevice,
-  refreshDevices,
   refreshDeviceStatus,
   showLoadingIcon,
 } from "../redux/actions/action";
@@ -25,9 +23,6 @@ import { Autocomplete } from "@mui/material";
 //Devices List
 import { devicesList } from "../optionsList/devicesList";
 import encryptedPost from "../encryptedPost";
-
-//Encryption
-import encryptData from "../cryptoFunctions/encrypt";
 
 const CustomTextField = styled(TextField)({
   "& label.Mui-focused": {

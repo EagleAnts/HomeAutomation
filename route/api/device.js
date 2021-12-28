@@ -52,6 +52,15 @@ router.post("/remove", async (req, res) => {
   });
 });
 
+router.post("/update", async (req, res) => {
+  const filter = { deviceID: req.body.deviceID };
+  const update = { status: req.body.status };
+
+  await Device.findOneAndUpdate(filter, update).exec(function (err, device) {
+    if (err) console.log(err);
+    else res.send("Status Changed...");
+  });
+});
 // for device Type
 
 // router.post("/addDevice", async (req, res) => {

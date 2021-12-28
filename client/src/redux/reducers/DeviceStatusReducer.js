@@ -1,5 +1,6 @@
 import produce from "immer";
 import * as actions from "../actions/actionTypes";
+import encryptedPost from "../../encryptedPost";
 
 const initialState = [];
 
@@ -17,6 +18,13 @@ const StatusReducer = (state = initialState, action) =>
         return draft.filter((el) => el.deviceID !== action.payload);
 
       case actions.CHANGE_DEVICE_STATUS:
+        encryptedPost(
+          {
+            deviceID: action.payload.id,
+            status: action.payload.active,
+          },
+          "api/device/update"
+        );
         const index = draft.findIndex((el) => el.id === action.payload.id);
         if (index !== -1) {
           draft[index].active = action.payload.active;

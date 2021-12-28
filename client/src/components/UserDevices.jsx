@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 // import { connect } from "react-redux";
 
 import { useSelector } from "react-redux";
@@ -21,7 +21,7 @@ const generateRandomColors = (index) => {
 const UserDevices = () => {
   const myDevices = useSelector((state) => state.UserDevices.myDevices);
   const userDevicesList = [];
-  Object.keys(myDevices).map((el) => {
+  Object.keys(myDevices).forEach((el) => {
     userDevicesList.push(...myDevices[el]);
   });
   userDevicesList.sort(() => 0.5 - Math.random());
