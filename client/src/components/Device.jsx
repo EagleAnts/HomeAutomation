@@ -12,6 +12,7 @@ import { AmberSwitch } from "./Switch";
 const DeviceStatus = (props) => {
   const dispatch = useDispatch();
 
+  const userID = useSelector((state) => state.UserDetails.userID);
   const { active: deviceStatus } = useSelector(
     (state) =>
       state.DeviceStatus.find((el) => el.id === props.id) || { active: false }
@@ -20,7 +21,7 @@ const DeviceStatus = (props) => {
   const currentSocket = useContext(SocketContext);
 
   const onClickHandler = (deviceID) => {
-    dispatch(changeStatus({ id: deviceID, active: !deviceStatus }));
+    dispatch(changeStatus({ userID, id: deviceID, active: !deviceStatus }));
     currentSocket.emit("device_event", { id: deviceID, active: !deviceStatus });
   };
 

@@ -14,7 +14,7 @@ function aesDataDecryption(req) {
     req.body.Data,
     req.session.encryptParams.key
   );
-  console.log(JSON.parse(bytes.toString(CryptoJS.enc.Utf8)));
+  // console.log(JSON.parse(bytes.toString(CryptoJS.enc.Utf8)));
   req.body = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)).encryptUserData;
 }
 

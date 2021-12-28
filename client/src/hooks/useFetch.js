@@ -1,29 +1,24 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import {
-  getDevices,
-  loadUserDevices,
-  addUserDetails,
-} from "../redux/actions/action";
+import { useDispatch, useSelector } from "react-redux";
+import { getDevices, loadUserDevices } from "../redux/actions/action";
 import encryptedGet from "../encryptedGet";
 
 export const useFetch = (initialState) => {
   const dispatch = useDispatch();
-
+  const userID = useSelector((state) => state.UserDetails.userID);
   const [loading, setLoading] = useState(initialState);
 
   useEffect(() => {
     console.log("Fetching Devices");
     async function fetchDevices() {
+      const res = await encryptedGet("api/device", userID);
       try {
-        const res = await encryptedGet("api/device");
         let data = res.device;
-        dispatch(addUserDetails(res.userData));
-        if (data.length === 0) throw new Error("No Data");
+        if (!data) throw new Error("No Data");
         else saveDevices(data);
       } catch (err) {
-        setLoading(false);
         console.log(err.message);
+        setLoading(false);
       }
     }
 

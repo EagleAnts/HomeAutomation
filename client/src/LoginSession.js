@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import App from "./App";
 import Loading from "./Loading";
 import Login from "./components/Login";
 import axios from "axios";
 import rsaEncrypt from "./cryptoFunctions/RSAEncryption";
+import { addUserDetails } from "./redux/actions/action";
 
 axios.defaults.withCredentials = true;
 
 const LoginSession = () => {
+  const dispatch = useDispatch();
   const [logHomeFlag, setLogHomeFlag] = useState(false);
   const [loading, setLoading] = useState(true);
   const [style] = useState(document.getElementById("style-direction"));
@@ -18,14 +21,20 @@ const LoginSession = () => {
   };
   useEffect(() => {
     const checkLoggedIn = async (setLogHomeFlag, style) => {
-      const data = await axios.post(
+      const res = await axios.post(
         `http://localhost:${process.env.PORT || 5000}/`,
         {}
       );
-      if (data.data === true) {
+      if (res.data.sessionExist === true) {
+        dispatch(
+          addUserDetails({
+            userID: res.data.userID,
+            username: res.data.username,
+          })
+        );
         style.href = "./css/default.css";
         rsaEncrypt({}, "setUp")
-          .then((data) => console.log(data))
+          .then((res) => console.log(res))
           .catch((err) => console.log(err));
         console.log("qwerty1");
 
@@ -34,9 +43,9 @@ const LoginSession = () => {
         style.href = "./css/loginStyle.css";
       }
       console.log("//");
-      console.log(data);
+      console.log(res);
       console.log("//");
-      return data;
+      // return data;
     };
     checkLoggedIn(setLogHomeFlag, style).then(() => setLoading(false));
   }, []);

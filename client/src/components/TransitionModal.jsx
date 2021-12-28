@@ -11,6 +11,7 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 // import { Popper } from "@mui/material";
 import { styled } from "@mui/system";
 
+import { useSelector } from "react-redux";
 import {
   addDevice,
   refreshDeviceStatus,
@@ -59,6 +60,8 @@ const style = {
 const FormPropsTextFields = (props) => {
   const dispatch = useDispatch();
 
+  const userID = useSelector((state) => state.UserDetails.userID);
+
   const [name, setName] = React.useState("");
 
   const [area, setArea] = React.useState("");
@@ -73,6 +76,7 @@ const FormPropsTextFields = (props) => {
     const deviceID = uuidv4();
 
     const data = {
+      userID,
       deviceID,
       name,
       option,

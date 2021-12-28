@@ -62,6 +62,7 @@ export const DetailsModal = (props) => {
   const deviceID = useSelector((state) => state.AllDevices.selectedDevice);
   const deviceArea = useSelector((state) => state.AllDevices.deviceArea);
   const loading = useSelector((state) => state.AllDevices.showLoading);
+  const userID = useSelector((state) => state.UserDetails.userID);
   const { active: deviceStatus } = useSelector((state) => {
     if (deviceID) {
       return state.DeviceStatus.find((el) => el.id === deviceID);
@@ -92,7 +93,7 @@ export const DetailsModal = (props) => {
 
   const removeDeviceHandler = (deviceID) => () => {
     dispatch(showLoadingIcon(true));
-    encryptedPost({ deviceID }, "api/device/remove").then((res) =>
+    encryptedPost({ userID, deviceID }, "api/device/remove").then((res) =>
       console.log(res.data)
     );
     dispatch(selectedDevice(""));
@@ -102,8 +103,9 @@ export const DetailsModal = (props) => {
     dispatch(showLoadingIcon(false));
   };
 
-  const onClickHandler = (deviceID) => {
-    dispatch(changeStatus({ id: deviceID, active: !deviceStatus }));
+  const onClickHandler = () => {
+    console.log(deviceID);
+    dispatch(changeStatus({ userID, id: deviceID, active: !deviceStatus }));
     // currentSocket.emit("device_event", { id: deviceID, active: !isActive });
   };
 
@@ -139,7 +141,7 @@ export const DetailsModal = (props) => {
             </Typography>
             <DeviceModalSwitch
               checked={deviceStatus || false}
-              onClick={() => onClickHandler(deviceID)}
+              onClick={onClickHandler}
             />
           </Stack>
           <Box

@@ -39,7 +39,12 @@ router.post("/", async (req, res) => {
         // user.token = token;
         req.session.user = user;
         req.session.encryptParams = req.encryptParams;
-        res.status(200).send(`${user.firstName} ${user.lastName}`);
+        res
+          .status(200)
+          .send({
+            userID: user._id,
+            username: `${user.firstName} ${user.lastName}`,
+          });
       } else {
         res.status(201).send("User Already Registered");
       }

@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import rsaEncrypt from "../cryptoFunctions/RSAEncryption";
+import { addUserDetails } from "../redux/actions/action";
 const Login = (props) => {
+  const dispatch = useDispatch();
   const [regFlag, setRegFlag] = useState(false);
   const [passwd, setPasswd] = useState("");
   const [confPasswd, setConfPasswd] = useState("");
@@ -22,8 +25,12 @@ const Login = (props) => {
     val[target[1].name] = target[1].value;
     rsaEncrypt(val, "login")
       .then((res) => {
-        if (res.status === 200) props.redirectHome();
-        else {
+        if (res.status === 200) {
+          console.log(res);
+          const { userID, username } = res.data;
+          dispatch(addUserDetails({ userID, username }));
+          props.redirectHome();
+        } else {
           setRegFlag(false);
           setErrMess(res.data);
         }
@@ -45,8 +52,12 @@ const Login = (props) => {
 
     rsaEncrypt(val, "register")
       .then((res) => {
-        if (res.status === 200) props.redirectHome();
-        else {
+        if (res.status === 200) {
+          console.log(res);
+          const { userID, username } = res.data;
+          dispatch(addUserDetails({ userID, username }));
+          props.redirectHome();
+        } else {
           setRegFlag(false);
           setErrMess(res.data);
         }

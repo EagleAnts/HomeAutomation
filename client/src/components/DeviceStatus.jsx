@@ -31,6 +31,7 @@ const StatusDropdown = (props) => {
       (el) => el.active
     )
   );
+  const userID = useSelector((state) => state.UserDetails.userID);
 
   useEffect(() => {
     if (deviceStatus) {
@@ -43,16 +44,15 @@ const StatusDropdown = (props) => {
   }, [deviceStatus]);
 
   const handleClick = () => {
-    console.log("Test 2 : " + getEncryptParams());
     setIsActive(!isActive);
   };
 
   const handleText = (ev) => {
     const text = ev.currentTarget.textContent;
     if (text === "ON")
-      dispatch(changeStatus({ id: props.deviceID, active: true }));
+      dispatch(changeStatus({ userID, id: props.deviceID, active: true }));
     else if (text === "OFF")
-      dispatch(changeStatus({ id: props.deviceID, active: false }));
+      dispatch(changeStatus({ userID, id: props.deviceID, active: false }));
     sethaveText(text);
   };
 

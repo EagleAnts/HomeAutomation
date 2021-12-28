@@ -42,7 +42,14 @@ app.use(
 app.get("/", (req, res) => res.send("API Running"));
 
 app.post("/", middleware.requireLogin, (req, res) => {
-  res.status(200).send("true");
+  const user = req.session.user;
+  res
+    .status(200)
+    .send({
+      userID: user._id,
+      username: `${user.firstName} ${user.lastName}`,
+      sessionExist: true,
+    });
 });
 
 // app.use(function (req, res, next) {

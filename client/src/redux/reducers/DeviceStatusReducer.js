@@ -20,6 +20,7 @@ const StatusReducer = (state = initialState, action) =>
       case actions.CHANGE_DEVICE_STATUS:
         encryptedPost(
           {
+            userID: action.payload.userID,
             deviceID: action.payload.id,
             status: action.payload.active,
           },

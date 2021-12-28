@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import SearchBar from "./SearchBar";
-import { Stack, styled, Typography } from "@mui/material";
-import { ButtonUnstyled } from "@mui/material";
+import { Button, Stack, styled, Typography } from "@mui/material";
+import { ButtonUnstyled, buttonUnstyledClasses } from "@mui/material";
 import { BsGearFill, BsSearch } from "react-icons/bs";
 import { RiAccountCircleFill } from "react-icons/ri";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { AiOutlineBulb } from "react-icons/ai";
+import { HiOutlineLightBulb } from "react-icons/hi";
+import { SocketContext } from "../context/socket";
 
 const SearchButtonRoot = styled("button")`
   min-height: 2rem;
@@ -38,6 +41,45 @@ function SearchButton(props) {
   return <ButtonUnstyled {...props} component={SearchButtonRoot} />;
 }
 
+const ConnectButtonRoot = styled("button")`
+  display: flex;
+  justify-content: space-between;
+  alignitems: center;
+  font-family: IBM Plex Sans, sans-serif;
+  font-weight: bold;
+  font-size: 0.875rem;
+  background-color: #7b40f2;
+  padding: 15px;
+  border-radius: 1rem;
+  color: white;
+  transition: all 150ms ease;
+  cursor: pointer;
+  border: none;
+
+  &:hover {
+    background-color: #6744ae;
+  }
+
+  &.${buttonUnstyledClasses.active} {
+    background-color: #6744ae;
+  }
+
+  &.${buttonUnstyledClasses.focusVisible} {
+    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1),
+      0 0 0 5px rgba(0, 127, 255, 0.5);
+    outline: none;
+  }
+
+  &.${buttonUnstyledClasses.disabled} {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+function ConnectButton(props) {
+  return <ButtonUnstyled {...props} component={ConnectButtonRoot} />;
+}
+
 const iconsStyle = {
   cursor: "pointer",
   fontSize: "2rem",
@@ -45,6 +87,8 @@ const iconsStyle = {
 };
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const socket = useContext(SocketContext);
+  const [socketConnected, setSocketConnected] = useState(socket.connected);
 
   const handleClose = () => {
     setOpen(false);
@@ -71,6 +115,27 @@ export const Navbar = () => {
         {open ? (
           <SearchBar open={open} setOpen={setOpen} handleClose={handleClose} />
         ) : null}
+
+        <ConnectButton
+          onClick={() => {
+            if (socketConnected) {
+              socket.disconnect();
+              setSocketConnected(false);
+            } else {
+              socket.connect();
+              setSocketConnected(true);
+            }
+          }}
+        >
+          <Typography sx={{ pointerEvents: "none" }}>
+            {socketConnected ? "Disconnect" : "Connect"}
+          </Typography>
+          {socketConnected ? (
+            <HiOutlineLightBulb pointerEvents="none" size={20} />
+          ) : (
+            <AiOutlineBulb pointerEvents="none" size={20} />
+          )}
+        </ConnectButton>
         <Stack
           m="0 2rem"
           xs={6}
